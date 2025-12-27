@@ -10,37 +10,32 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Expert Logic (No Gemini Key Needed) ---
+// --- Smart Expert Engine ---
 const getExpertAdvice = (data) => {
-    const soil = data.soilType || "Unknown";
+    const soil = data.soilType || "Normal";
     const problem = (data.currentProblem || "").toLowerCase();
     
-    // 1. Crop Predictions
+    // Exact match for soil based predictions
     let predictions = ["Wheat", "Mustard", "Barley"]; 
     if(soil === "Black") predictions = ["Cotton", "Soybean", "Gram"];
-    if(soil === "Red") predictions = ["Groundnut", "Maize", "Arhar"];
-    if(soil === "Sandy") predictions = ["Bajra", "Guar", "Moong"];
-    if(soil === "Alluvial") predictions = ["Rice", "Sugarcane", "Potato"];
+    else if(soil === "Red") predictions = ["Groundnut", "Maize", "Arhar"];
+    else if(soil === "Sandy") predictions = ["Bajra", "Guar", "Moong"];
+    else if(soil === "Alluvial") predictions = ["Rice", "Sugarcane", "Potato"];
 
-    // 2. Technical Solution
-    let solution = "Your farm status is currently stable. Maintain regular watering.";
+    let solution = "Your farm status is stable. Follow regular irrigation cycles.";
     if (problem.includes("pest") || problem.includes("insect")) {
-        solution = "TECHNICAL ALERT: Pest activity detected. \n• Action: Spray 5% Neem Seed Kernel Extract. \n• Management: Set up sticky traps. \n• Tip: Check leaves daily.";
+        solution = "TECHNICAL ALERT: Pest activity detected. \n• Action: Spray 5% Neem Seed Kernel Extract. \n• Management: Set up sticky traps.";
     } else if (problem.includes("yellow") || problem.includes("growth")) {
-        solution = "NUTRIENT DEFICIENCY: Signs of Nitrogen deficiency. \n• Action: Apply balanced NPK or micronutrient spray. \n• Organic: Mix well-decomposed manure.";
-    } else if (problem.includes("water") || problem.includes("dry")) {
-        solution = "WATER MANAGEMENT: Stress detected. \n• System: Use Drip irrigation. \n• Timing: Water early morning (before 8 AM).";
+        solution = "NUTRIENT DEFICIENCY: Signs of Nitrogen deficiency. \n• Action: Apply balanced NPK or micronutrient spray.";
     }
 
-    // Health Score logic
-    let healthScore = 100;
+    let healthScore = 95;
     if (problem && problem !== "none") healthScore = 75;
-    if (soil === "Sandy") healthScore -= 5;
 
     return { solution, predictions, score: healthScore };
 };
 
-// --- API ROUTES ---
+// --- ROUTES ---
 app.post("/api/ai/chat", (req, res) => {
     const { farmData } = req.body;
     const result = getExpertAdvice(farmData);
@@ -72,7 +67,7 @@ app.get("/api/farms/history", async (req, res) => {
 });
 
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("🚀 Server Ready"))
-    .catch(err => console.error("❌ DB Error:", err));
+    .then(() => console.log("🚀 Backend Live"))
+    .catch(err => console.error(err));
 
-app.listen(process.env.PORT || 5001, () => console.log("Server Running"));
+app.listen(process.env.PORT || 5001);
