@@ -1,7 +1,6 @@
 import React from 'react';
 
 const fieldMap = [
-    // Location hatake neeche manually handle kiya gaya hai niche
     { key: 'landSize', labelKey: 'landSizeLabel', optionsKey: 'landSizeOptions', type: 'select' },
     { key: 'crop', labelKey: 'cropLabel', optionsKey: 'cropOptions', type: 'select' },
     { key: 'soilType', labelKey: 'soilTypeLabel', optionsKey: 'soilTypeOptions', type: 'select' },
@@ -14,7 +13,6 @@ const fieldMap = [
 ];
 
 function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
-    
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormData(prev => ({ ...prev, [id]: value }));
@@ -22,10 +20,10 @@ function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 1. NAYA LOCATION UI: Options hat gaye, button aa gaya */}
             <div className="flex flex-col space-y-1.5 md:col-span-2">
-                <label className="text-sm font-semibold text-gray-600">
-                    {langData.locationLabel}
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <i className="fa-solid fa-location-crosshairs text-green-600"></i>
+                    Location (City, State)
                 </label>
                 <div className="flex gap-2">
                     <input
@@ -33,20 +31,19 @@ function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
                         type="text"
                         readOnly
                         value={formData.location || ""}
-                        placeholder="Click Detect for GPS Location"
-                        className="flex-1 p-2.5 bg-gray-100 border border-gray-300 rounded-xl text-sm outline-none"
+                        placeholder="Click Detect to find your City/State"
+                        className="flex-1 p-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm outline-none"
                     />
                     <button
                         type="button"
                         onClick={onLocationDetect}
                         className="px-4 bg-green-100 text-green-700 font-bold rounded-xl border border-green-200 hover:bg-green-200 transition-all text-xs"
                     >
-                        <i className="fa-solid fa-location-dot mr-1"></i> Detect
+                        Detect
                     </button>
                 </div>
             </div>
 
-            {/* 2. PURANE FEATURES: As-it-is baki fields */}
             {fieldMap.map(field => (
                 <div key={field.key} className="flex flex-col space-y-1.5">
                     <label htmlFor={field.key} className="text-sm font-semibold text-gray-600">
@@ -76,5 +73,4 @@ function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
         </div>
     );
 }
-
 export default FormInputs;
