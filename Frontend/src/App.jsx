@@ -12,9 +12,9 @@ import LocalTrend from './components/LocalTrend';
 import Feedback from './components/Feedback';
 import { translations } from './data/translations';
 
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
-import Login from "./pages/Login";
+// import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "./firebase";
+// import Login from "./pages/Login";
 
 const supportedLangs = Object.keys(translations);
 
@@ -22,12 +22,12 @@ function App() {
     // Firebase auth state
     const [user, setUser] = useState(null);
 
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-        });
-        return () => unsubscribe();
-    }, []);
+    // useEffect(() => {
+    //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    //         setUser(currentUser);
+    //     });
+    //     return () => unsubscribe();
+    // }, []);
 
     // App state
     const [currentLang, setCurrentLang] = useState('en');
@@ -100,10 +100,10 @@ function App() {
         }
     };
 
-    // **Show Login if user not logged in**
-    if (!user) {
-        return <Login />;
-    }
+    // // // **Show Login if user not logged in**
+    // // if (!user) {
+    // //     return <Login />;
+    // }
 
     return (
         <div className="min-h-screen flex flex-col font-lato text-gray-800">

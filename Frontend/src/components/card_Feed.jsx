@@ -29,4 +29,3 @@ export default function ActionAreaCard({ title, url, description, name }) {
         </Card>
     );
 }
-
