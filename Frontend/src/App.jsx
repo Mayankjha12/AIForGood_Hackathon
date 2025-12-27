@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react'; // useEffect hata diya unused warning se bachne ke liye
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FormSection from './components/FormSection';
@@ -12,6 +12,7 @@ import LocalTrend from './components/LocalTrend';
 import Feedback from './components/Feedback';
 import { translations } from './data/translations';
 
+// Jab Firebase chalu karna ho, tab niche wale imports aur logic uncomment karna
 // import { onAuthStateChanged } from "firebase/auth";
 // import { auth } from "./firebase";
 // import Login from "./pages/Login";
@@ -19,20 +20,13 @@ import { translations } from './data/translations';
 const supportedLangs = Object.keys(translations);
 
 function App() {
-    // Firebase auth state
-    const [user, setUser] = useState(null);
-
-    // useEffect(() => {
-    //     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    //         setUser(currentUser);
-    //     });
-    //     return () => unsubscribe();
-    // }, []);
-
     // App state
     const [currentLang, setCurrentLang] = useState('en');
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState('home'); 
+
+    // Jab login page banana ho, tab niche wali line aur useEffect wapas lana
+    // const [user, setUser] = useState(null);
 
     const handleLanguageChange = useCallback((newLang) => {
         if (supportedLangs.includes(newLang)) {
@@ -48,7 +42,6 @@ function App() {
 
     const langData = translations[currentLang] || translations.en;
 
-    // Smooth scroll + scroll-margin-top fix
     const handleNavigate = (page) => {
         setCurrentPage(page);
         const element = document.getElementById(page);
@@ -60,7 +53,7 @@ function App() {
     };
 
     const renderPage = () => {
-        const pageWrapperClass = "pt-28 scroll-mt-28"; // navbar height ke hisab se padding top
+        const pageWrapperClass = "pt-28 scroll-mt-28";
 
         switch(currentPage) {
             case 'my-farm': 
@@ -99,11 +92,6 @@ function App() {
                 );
         }
     };
-
-    // // // **Show Login if user not logged in**
-    // // if (!user) {
-    // //     return <Login />;
-    // }
 
     return (
         <div className="min-h-screen flex flex-col font-lato text-gray-800">
