@@ -15,6 +15,11 @@ const FarmSchema = new mongoose.Schema({
   cropStage: String,
   currentProblem: String,
   voiceTranscript: String,
+  // Naya field ML health score ke liye
+  healthScore: {
+    type: Number,
+    default: 100
+  },
   createdAt: {
     type: Date,
     default: Date.now,
