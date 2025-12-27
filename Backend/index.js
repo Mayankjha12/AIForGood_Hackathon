@@ -13,7 +13,7 @@ app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// ML Scoring Logic
+// ML Heuristic for Health Score
 const calculateFarmHealth = (data) => {
     let score = 100;
     if (data.currentProblem && data.currentProblem !== "None") score -= 30;
@@ -21,7 +21,7 @@ const calculateFarmHealth = (data) => {
     return Math.max(score, 10);
 };
 
-// --- 1. CHATBOT API (English Expert Advice) ---
+// --- 1. CHATBOT API (Pure English Analysis) ---
 app.post("/api/ai/chat", async (req, res) => {
     try {
         const { prompt, farmData } = req.body;
@@ -38,7 +38,7 @@ app.post("/api/ai/chat", async (req, res) => {
     }
 });
 
-// --- 2. SUBMIT FORM (With ML Score) ---
+// --- 2. SUBMIT FORM (Saves data with ML score) ---
 app.post("/api/farms/submit", async (req, res) => {
     try {
         const healthScore = calculateFarmHealth(req.body);
@@ -50,17 +50,16 @@ app.post("/api/farms/submit", async (req, res) => {
     }
 });
 
-// --- 3. NEW: GET ALL HISTORY (Vertical Feed) ---
+// --- 3. GET HISTORY (Vertical Timeline Feed) ---
 app.get("/api/farms/history", async (req, res) => {
     try {
-        const history = await Farm.find().sort({ createdAt: -1 }); // Newest first
+        const history = await Farm.find().sort({ createdAt: -1 }).limit(10);
         res.json(history);
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
 
-// Other routes...
 app.post("/api/feedback", async (req, res) => {
     try {
         const feedback = new Feedback(req.body);
@@ -69,8 +68,9 @@ app.post("/api/feedback", async (req, res) => {
     } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
-mongoose.connect(process.env.MONGO_URI).then(() => console.log("✅ Backend with History Ready"));
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ Backend with History & ML Ready"))
+    .catch(err => console.error("❌ MongoDB Error:", err));
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
-app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
