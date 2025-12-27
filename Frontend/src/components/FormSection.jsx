@@ -24,21 +24,36 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
         'kok': 'kok-IN', 'mai': 'mai-IN', 'ne': 'ne-IN'
     };
 
-    // NAYA FEATURE: Auto Detect Location Logic
+    // Auto Detect Location with English Alerts & Reverse Geocoding
     const handleLocationDetect = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
+                async (position) => {
                     const { latitude, longitude } = position.coords;
-                    setFormData(prev => ({ 
-                        ...prev, 
-                        location: `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}` 
-                    }));
+                    try {
+                        const geoRes = await axios.get(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                        );
+                        const address = geoRes.data.address;
+                        const city = address.city || address.town || address.village || "Unknown City";
+                        const state = address.state || "Unknown State";
+                        
+                        setFormData(prev => ({ 
+                            ...prev, 
+                            location: `${city}, ${state}` 
+                        }));
+                        console.log("Location detected successfully."); // Professional log
+                    } catch (err) {
+                        setFormData(prev => ({ 
+                            ...prev, 
+                            location: `Lat: ${latitude.toFixed(2)}, Lon: ${longitude.toFixed(2)}` 
+                        }));
+                    }
                 },
-                () => alert("GPS Permission zaroori hai location auto-detect karne ke liye.")
+                () => alert("Please grant GPS permission to detect your location.") // English Alert
             );
         } else {
-            alert("Geolocation support nahi hai browser mein.");
+            alert("Geolocation is not supported by your browser."); // English Alert
         }
     };
 
@@ -57,20 +72,20 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                 setIsChatLoading(true);
                 try {
                     const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
-                        prompt: "Mera data submit ho gaya hai, kisan ko zaroori salaah dein.",
+                        prompt: "Farm data submitted. Provide immediate expert agricultural advice.",
                         farmData: formData
                     });
                     setChatReply(aiRes.data.reply);
                     setIsChatOpen(true);
                 } catch (aiErr) {
-                    console.error("AI Error:", aiErr);
+                    console.error("AI Service Error:", aiErr);
                 }
                 setIsChatLoading(false);
 
                 if (onFormSubmitSuccess) onFormSubmitSuccess();
             }
         } catch (error) {
-            alert("Server connect nahi ho paya. Render check karein.");
+            alert("Connection Error: Could not connect to the server. Please check your internet."); // English Alert
         }
     };
 
@@ -107,21 +122,20 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                             {isRecording ? 'Listening...' : 'Start Voice Input'}
                         </button>
                         <div className="mt-6 p-4 bg-white border rounded-xl text-sm min-h-[80px] w-full italic text-gray-500">
-                            {voiceOutput || "Aapki awaaz yahan text ban jayegi..."}
+                            {voiceOutput || "Your voice transcript will appear here..."}
                         </div>
                     </div>
                     <div className="flex-1 p-2">
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Updated FormInputs with Detect Button */}
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
                             <button type="submit" className="w-full px-8 py-4 bg-green-600 text-white font-bold rounded-2xl hover:bg-green-700 shadow-xl">
-                                {isChatLoading ? 'Processing AI...' : langData.submitBtn}
+                                {isChatLoading ? 'Processing AI Advice...' : langData.submitBtn}
                             </button>
                         </form>
                     </div>
                 </div>
                 {isChatOpen && (
-                    <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50 animate-in slide-in-from-bottom">
+                    <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
                         <div className="flex justify-between items-center mb-4">
                             <h4 className="font-bold text-gray-800">KrishiSakhi AI Expert</h4>
                             <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-red-500">✖</button>
