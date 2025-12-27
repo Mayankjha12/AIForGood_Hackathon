@@ -9,7 +9,7 @@ const languageMap = {
     "ks": "Kashmiri", "kok": "Konkani", "mai": "Maithili", "ne": "Nepali"
 };
 
-const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess }) => {
+const FormSection = ({ langData, currentLang, onLangChange }) => {
     const [formData, setFormData] = useState({});
     const [voiceOutput, setVoiceOutput] = useState('');
     const [isRecording, setIsRecording] = useState(false);
@@ -24,10 +24,10 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
     };
 
     const startVoiceRecording = () => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitRecognition;
         if (!SpeechRecognition) return;
         const recognition = new SpeechRecognition();
-        recognition.lang = voiceLangCodes[currentLang] || voiceLangCodes.en;
+        recognition.lang = voiceLangCodes[currentLang] || 'en-IN';
         recognition.onstart = () => setIsRecording(true);
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
@@ -40,60 +40,47 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
 
     const handleLocationDetect = () => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                async (position) => {
-                    const { latitude, longitude } = position.coords;
-                    try {
-                        const geoRes = await axios.get(
-                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-                        );
-                        const address = geoRes.data.address;
-                        const city = address.city || address.town || address.village || "Unknown City";
-                        const state = address.state || "Unknown State";
-                        setFormData(prev => ({ ...prev, location: `${city}, ${state}` }));
-                    } catch (err) {
-                        setFormData(prev => ({ ...prev, location: `Lat: ${latitude.toFixed(2)}, Lon: ${longitude.toFixed(2)}` }));
-                    }
-                },
-                () => alert("Please grant GPS permission.")
-            );
+            navigator.geolocation.getCurrentPosition(async (pos) => {
+                const { latitude, longitude } = pos.coords;
+                try {
+                    const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                    const addr = res.data.address;
+                    setFormData(prev => ({ ...prev, location: `${addr.city || addr.town}, ${addr.state}` }));
+                } catch (e) { setFormData(prev => ({ ...prev, location: `Lat: ${latitude.toFixed(2)}` })); }
+            }, () => alert("GPS denied"));
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const backendURL = 'https://kisan-sakhi-new.onrender.com';
         setIsChatLoading(true);
+        const backendURL = 'https://kisan-sakhi-new.onrender.com';
         
         try {
-            // 1. Submit Data
-            const response = await axios.post(`${backendURL}/api/farms/submit`, {
-                ...formData,
-                voiceTranscript: voiceOutput,
-                dateSubmitted: new Date().toISOString()
+            // Step 1: Submit Form Data
+            const response = await axios.post(`${backendURL}/api/farms/submit`, formData, {
+                headers: { 'Content-Type': 'application/json' }
             });
 
             if (response.data.success) {
-                // 2. Fetch AI Advice
-                const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
-                    prompt: "Provide technical agricultural advice for this submission.",
-                    farmData: { ...formData, healthScore: response.data.score }
-                });
-                
-                setChatReply(aiRes.data.reply);
-                setIsChatOpen(true);
-                setIsChatLoading(false);
-                
-                // Success hone par agar aap dashboard par auto-redirect chahte hain:
-                if (onFormSubmitSuccess) {
-                    console.log("Redirect trigger ready.");
+                // Step 2: AI Advice (Gemini)
+                try {
+                    const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
+                        prompt: "Provide technical agricultural advice for this submission.",
+                        farmData: { ...formData, healthScore: response.data.score }
+                    });
+                    setChatReply(aiRes.data.reply);
+                } catch (aiErr) {
+                    // Agar Gemini 500 error de, toh backup message
+                    setChatReply("Data saved! AI is taking a bit longer to analyze. Please check your 'My Farm' dashboard soon.");
                 }
+                setIsChatOpen(true);
             }
         } catch (error) {
-            setIsChatLoading(false);
-            console.error("Submission Error:", error);
-            alert("Submission error. Make sure your server is active (https://kisan-sakhi-new.onrender.com/api/farms/history).");
+            console.error("Submit Error:", error);
+            alert("Network error. Please make sure the backend is active at: " + backendURL);
         }
+        setIsChatLoading(false);
     };
 
     return (
@@ -101,6 +88,8 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
             <div className="max-w-6xl mx-auto px-4">
                 <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
+                    
+                    {/* Left Card: Voice Input */}
                     <div className="flex-1 p-8 rounded-2xl bg-green-50/50 border border-green-100 flex flex-col items-center">
                         <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
                             <i className={`fa-solid fa-microphone text-3xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
@@ -117,6 +106,8 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                             {voiceOutput || "Your voice transcript will appear here..."}
                         </div>
                     </div>
+
+                    {/* Right Card: Inputs */}
                     <div className="flex-1 p-2">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
@@ -126,6 +117,8 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                         </form>
                     </div>
                 </div>
+
+                {/* AI Chatbot Popup */}
                 {isChatOpen && (
                     <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
                         <div className="flex justify-between items-center mb-4">
@@ -144,4 +137,5 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
         </section>
     );
 };
+
 export default FormSection;
