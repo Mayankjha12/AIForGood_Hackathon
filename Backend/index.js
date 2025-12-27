@@ -10,21 +10,33 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// --- Expert Rule-Based Logic (No API Key Needed) ---
+// --- Smart Expert Engine (No API Key Needed) ---
 const getExpertAdvice = (data) => {
-    const crop = data.crop || "Crop";
+    const soil = data.soilType || "Unknown";
     const problem = (data.currentProblem || "").toLowerCase();
     
+    // 1. Crop Prediction based on Soil Type
+    let predictions = ["Wheat", "Mustard", "Barley"]; 
+    if(soil === "Black") predictions = ["Cotton", "Soybean", "Gram"];
+    if(soil === "Red") predictions = ["Groundnut", "Maize", "Pigeon Pea"];
+    if(soil === "Sandy") predictions = ["Bajra", "Guar", "Watermelon"];
+    if(soil === "Alluvial") predictions = ["Rice", "Sugarcane", "Jute"];
+
+    // 2. Detailed Technical Solution
+    let solution = "Your farm status is stable. Maintain regular moisture levels.";
     if (problem.includes("pest") || problem.includes("insect")) {
-        return `Expert Advice for ${crop}: Apply Neem Oil or Bio-pesticides. Spray underside of leaves.`;
+        solution = "TECHNICAL ALERT: Pest activity detected. \n• Action: Spray 5% Neem Seed Kernel Extract (NSKE). \n• Management: Set up yellow sticky traps. \n• Tip: Check leaves underside twice a day.";
+    } else if (problem.includes("yellow") || problem.includes("growth")) {
+        solution = "NUTRIENT DEFICIENCY: Signs of Nitrogen/Iron deficiency. \n• Action: Apply balanced NPK or micronutrient spray. \n• Organic: Mix well-decomposed cow dung manure. \n• Caution: Don't overwater; it leaches nutrients.";
+    } else if (problem.includes("water") || problem.includes("irrigation") || problem.includes("dry")) {
+        solution = "WATER MANAGEMENT: Stress detected. \n• System: Use Drip irrigation to avoid root rot. \n• Timing: Water early morning (before 8 AM). \n• Mulching: Cover soil with straw to prevent evaporation.";
     }
-    if (problem.includes("water") || problem.includes("irrigation")) {
-        return `Irrigation Alert for ${crop}: In ${data.soilType} soil, use Drip irrigation. Water early morning.`;
-    }
-    if (problem.includes("yellow") || problem.includes("growth")) {
-        return `Nutrient Report for ${crop}: Apply balanced NPK fertilizer or Organic Compost for recovery.`;
-    }
-    return `Technical Recommendation: Your ${crop} is stable. Maintain health score: ${data.healthScore}/100.`;
+
+    return {
+        solution,
+        predictions,
+        score: data.healthScore || 75
+    };
 };
 
 // --- API ROUTES ---
@@ -39,9 +51,10 @@ app.post("/api/feedback", async (req, res) => {
 app.post("/api/ai/chat", async (req, res) => {
     try {
         const { farmData } = req.body;
-        const reply = getExpertAdvice(farmData);
-        res.json({ reply });
-    } catch (err) { res.json({ reply: "Data saved! Expert advice is in My Farm." }); }
+        // Backend expert system handles logic
+        const result = getExpertAdvice(farmData);
+        res.json(result); 
+    } catch (err) { res.json({ solution: "Data saved! Expert advice is in My Farm.", predictions: ["N/A"] }); }
 });
 
 app.post("/api/farms/submit", async (req, res) => {
@@ -62,7 +75,7 @@ app.get("/api/farms/history", async (req, res) => {
 });
 
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log("✅ Server & DB Ready"))
+    .then(() => console.log("✅ Offline Expert System Ready"))
     .catch(err => console.error("❌ DB Error:", err));
 
 const PORT = process.env.PORT || 5001;
