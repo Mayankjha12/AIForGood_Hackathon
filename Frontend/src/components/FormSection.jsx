@@ -13,7 +13,6 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
     const [formData, setFormData] = useState({});
     const [voiceOutput, setVoiceOutput] = useState('');
     const [isRecording, setIsRecording] = useState(false);
-    
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatReply, setChatReply] = useState("");
     const [isChatLoading, setIsChatLoading] = useState(false);
@@ -64,7 +63,7 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const backendURL = 'https://kisan-sakhi-new.onrender.com';
-        setIsChatLoading(true); // Start loading immediately
+        setIsChatLoading(true);
         
         try {
             // 1. Submit Data
@@ -85,13 +84,15 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                 setIsChatOpen(true);
                 setIsChatLoading(false);
                 
-                // Optional: Alert the user success
-                alert("Data Submitted Successfully! Check AI Chatbot for advice.");
+                // Success hone par agar aap dashboard par auto-redirect chahte hain:
+                if (onFormSubmitSuccess) {
+                    console.log("Redirect trigger ready.");
+                }
             }
         } catch (error) {
             setIsChatLoading(false);
-            console.error("Submission Error Details:", error.response || error);
-            alert("Submission error. Make sure the server is awake by visiting the backend URL in a new tab.");
+            console.error("Submission Error:", error);
+            alert("Submission error. Make sure your server is active (https://kisan-sakhi-new.onrender.com/api/farms/history).");
         }
     };
 
@@ -100,7 +101,6 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
             <div className="max-w-6xl mx-auto px-4">
                 <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
-                    
                     <div className="flex-1 p-8 rounded-2xl bg-green-50/50 border border-green-100 flex flex-col items-center">
                         <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
                             <i className={`fa-solid fa-microphone text-3xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
@@ -117,7 +117,6 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                             {voiceOutput || "Your voice transcript will appear here..."}
                         </div>
                     </div>
-
                     <div className="flex-1 p-2">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
@@ -127,8 +126,6 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
                         </form>
                     </div>
                 </div>
-
-                {/* PREMIUM CHATBOT UI */}
                 {isChatOpen && (
                     <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
                         <div className="flex justify-between items-center mb-4">
@@ -147,5 +144,4 @@ const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess 
         </section>
     );
 };
-
 export default FormSection;
