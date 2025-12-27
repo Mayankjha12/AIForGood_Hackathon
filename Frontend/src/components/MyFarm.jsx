@@ -3,7 +3,6 @@ import axios from "axios";
 
 const MyFarm = () => {
   const [history, setHistory] = useState([]); 
-  // Fixed: 'loading' variable removed to fix Netlify build error
   const BACKEND_URL = "https://kisan-sakhi-new.onrender.com";
 
   const fetchHistory = async () => {
@@ -25,7 +24,7 @@ const MyFarm = () => {
     <div className="min-h-screen bg-white p-8 font-inter">
       <div className="max-w-6xl mx-auto space-y-10">
         
-        {/* Header - Same UI */}
+        {/* Header */}
         <header className="flex justify-between items-center">
           <div>
             <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">My Farm Dashboard</h2>
@@ -36,7 +35,7 @@ const MyFarm = () => {
           </button>
         </header>
 
-        {/* AI & SCAN CARDS - */}
+        {/* AI & SCAN CARDS */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-6 rounded-3xl shadow-xl">
             <h3 className="text-xl font-bold">Latest Health Report</h3>
@@ -56,13 +55,13 @@ const MyFarm = () => {
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col justify-center items-center">
+          <div className="bg-white p-6 rounded-3xl shadow-xl border border-gray-100 flex flex-col justify-center items-center text-center">
              <p className="text-gray-500 text-sm">Drone Scan / Field Photo</p>
              <button className="mt-3 bg-gray-100 text-gray-700 px-6 py-2 rounded-xl border border-dashed border-gray-300 w-full">Upload New Scan</button>
           </div>
         </div>
 
-        {/* ISSUES FEED - Frontend Same, but issues will stack here */}
+        {/* ISSUES FEED */}
         <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <h3 className="text-xl font-bold text-gray-700 underline decoration-green-500 decoration-4">Issue History (Timeline)</h3>
@@ -107,5 +106,5 @@ const MyFarm = () => {
     </div>
   );
 };
-export default MyFarm;
+
 export default MyFarm;
