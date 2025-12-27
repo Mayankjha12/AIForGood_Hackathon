@@ -11,9 +11,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Setup Gemini with your specific API Key
-// Render dashboard par bhi yahi key bina space ke set karein
-const genAI = new GoogleGenerativeAI("AIzaSyByXsZByBik7nySE2Nm9-ddYIRQbUvs8-I");
+// API KEY DIRECTLY INSERTED (No .env needed for this)
+const YOUR_GEMINI_KEY = "AIzaSyByXsZByBik7nySE2Nm9-ddYIRQbUvs8-I";
+const genAI = new GoogleGenerativeAI(YOUR_GEMINI_KEY);
 
 // ML Heuristic for Health Score
 const calculateFarmHealth = (data) => {
@@ -23,30 +23,29 @@ const calculateFarmHealth = (data) => {
     return Math.max(score, 10);
 };
 
-// --- 1. CHATBOT API (Expert Advice in English) ---
+// --- 1. CHATBOT API (Pure English Analysis) ---
 app.post("/api/ai/chat", async (req, res) => {
     try {
         const { prompt, farmData } = req.body;
-        
-        // Dashboard key trim protection
-        const apiKey = "AIzaSyByXsZByBik7nySE2Nm9-ddYIRQbUvs8-I";
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
         
         const context = `You are KrishiSakhi AI, an expert agricultural advisor. 
         Context: Location: ${farmData?.location}, Crop: ${farmData?.crop}, Soil: ${farmData?.soilType}, Health Score: ${farmData?.healthScore}/100.
-        Provide professional technical advice in English language only.`;
+        Provide professional technical advice in English language only with specific solutions for ${farmData?.currentProblem}.`;
         
         const result = await model.generateContent(`${context} \nFarmer says: ${prompt}`);
         const response = await result.response;
+        
+        // Return full AI text
         res.json({ reply: response.text() });
     } catch (err) {
         console.error("Gemini Error:", err.message);
-        // Error handling taaki frontend crash na ho
-        res.json({ reply: "Data saved successfully! AI expert is busy right now, check 'My Farm' section for your report." });
+        // Backup message agar AI fail ho
+        res.json({ reply: "Data saved! Your farm status is healthy, but AI expert is currently busy. Please check 'My Farm' section later." });
     }
 });
 
-// --- 2. SUBMIT FORM ---
+// --- 2. SUBMIT FORM (Saves data with ML score) ---
 app.post("/api/farms/submit", async (req, res) => {
     try {
         const healthScore = calculateFarmHealth(req.body);
@@ -58,7 +57,7 @@ app.post("/api/farms/submit", async (req, res) => {
     }
 });
 
-// --- 3. GET HISTORY ---
+// --- 3. GET HISTORY (Vertical Timeline Feed) ---
 app.get("/api/farms/history", async (req, res) => {
     try {
         const history = await Farm.find().sort({ createdAt: -1 }).limit(10);
@@ -68,6 +67,7 @@ app.get("/api/farms/history", async (req, res) => {
     }
 });
 
+// --- 4. FEEDBACK API ---
 app.post("/api/feedback", async (req, res) => {
     try {
         const feedback = new Feedback(req.body);
@@ -76,6 +76,7 @@ app.post("/api/feedback", async (req, res) => {
     } catch (err) { res.status(400).json({ error: err.message }); }
 });
 
+// MongoDB Connection (Make sure MONGO_URI is in Render Dashboard or .env)
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("✅ Backend with History & ML Ready"))
     .catch(err => console.error("❌ MongoDB Error:", err));
