@@ -7,7 +7,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     const [voiceOutput, setVoiceOutput] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
-    // Initial state set to match backend JSON
+    // State initialized with proper structure to avoid 'Loading'
     const [chatReply, setChatReply] = useState({ solution: "", predictions: [], score: 0 });
     const [isChatLoading, setIsChatLoading] = useState(false);
 
@@ -41,14 +41,15 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsChatLoading(true);
-        const backendURL = 'https://kisan-sakhi-new.onrender.com';
         try {
+            const backendURL = 'https://kisan-sakhi-new.onrender.com';
             const response = await axios.post(`${backendURL}/api/farms/submit`, formData);
             if (response.data.success) {
                 const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
                     farmData: { ...formData, healthScore: response.data.score }
                 });
-                setChatReply(aiRes.data); // Pure data object ko save karo
+                // State update with real data
+                setChatReply(aiRes.data);
                 setIsChatOpen(true);
             }
         } catch (error) { console.error("Error:", error); }
@@ -60,8 +61,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
             <div className="max-w-6xl mx-auto px-4">
                 <h2 className="text-center text-4xl font-black text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-[3rem] shadow-xl flex flex-col lg:flex-row gap-8">
-                    {/* Voice Card */}
-                    <div className="flex-1 p-8 rounded-3xl bg-green-50/50 flex flex-col items-center">
+                    <div className="flex-1 p-8 rounded-3xl bg-green-50/50 flex flex-col items-center border border-green-100">
                         <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-inner ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
                             <i className={`fa-solid fa-microphone text-4xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
                         </div>
@@ -74,14 +74,13 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                     <div className="flex-1">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
-                            <button type="submit" disabled={isChatLoading} className="w-full py-5 bg-green-600 text-white font-black text-lg rounded-[2rem] shadow-2xl">
+                            <button type="submit" disabled={isChatLoading} className="w-full py-5 bg-green-600 text-white font-black text-lg rounded-[2rem] shadow-2xl transition hover:bg-green-700">
                                 {isChatLoading ? 'Analyzing...' : langData.submitBtn}
                             </button>
                         </form>
                     </div>
                 </div>
 
-                {/* --- SMART MODAL (UI FIX) --- */}
                 {isChatOpen && (
                     <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[100] p-4">
                         <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
@@ -97,33 +96,29 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                             </div>
 
                             <div className="p-8 space-y-8 overflow-y-auto max-h-[70vh]">
-                                {/* Crop Predictions Card */}
                                 <div className="bg-green-50 p-6 rounded-[2rem] border border-green-100">
                                     <h4 className="text-green-800 font-black mb-4 flex items-center gap-2">
                                         <i className="fa-solid fa-seedling"></i> Top 3 Recommended Crops
                                     </h4>
                                     <div className="grid grid-cols-3 gap-3">
-                                        {chatReply.predictions && chatReply.predictions.length > 0 ? (
-                                            chatReply.predictions.map((crop, i) => (
-                                                <div key={i} className="bg-white p-3 rounded-xl shadow-sm text-center font-bold text-green-700 border border-green-200">
-                                                    {crop}
-                                                </div>
-                                            ))
-                                        ) : <p className="text-gray-400">Loading recommendations...</p>}
+                                        {chatReply.predictions.map((crop, i) => (
+                                            <div key={i} className="bg-white p-3 rounded-xl shadow-sm text-center font-bold text-green-700 border border-green-200">
+                                                {crop}
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
 
-                                {/* Detailed Technical Advice */}
                                 <div className="space-y-4">
                                     <h4 className="text-gray-800 font-black flex items-center gap-2">
                                         <i className="fa-solid fa-list-check text-green-600"></i> Expert Recommendation
                                     </h4>
                                     <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100 text-gray-700 whitespace-pre-wrap text-sm italic">
-                                        {chatReply.solution || "Generating your field report..."}
+                                        {chatReply.solution}
                                     </div>
                                 </div>
 
-                                <button onClick={() => window.location.href='/myfarm'} className="w-full py-5 bg-gray-900 text-white font-black rounded-[1.5rem] hover:bg-black shadow-xl">
+                                <button onClick={() => window.location.href='/myfarm'} className="w-full py-5 bg-gray-900 text-white font-black rounded-[1.5rem] shadow-xl hover:bg-black">
                                     Go to My Farm Dashboard →
                                 </button>
                             </div>
