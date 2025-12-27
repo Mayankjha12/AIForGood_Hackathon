@@ -3,10 +3,9 @@ import axios from "axios";
 
 const MyFarm = () => {
   const [history, setHistory] = useState([]); 
-  const [loading, setLoading] = useState(true);
+  // Fixed: 'loading' variable removed to fix Netlify build error
   const BACKEND_URL = "https://kisan-sakhi-new.onrender.com";
 
-  // Sabhi pichle issues fetch karna
   const fetchHistory = async () => {
     try {
       const res = await axios.get(`${BACKEND_URL}/api/farms/history`);
@@ -14,14 +13,12 @@ const MyFarm = () => {
     } catch (err) {
       console.log("Data fetch nahi ho paya.");
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     fetchHistory();
   }, []);
 
-  // Latest issue for top cards (Health score etc.)
   const latestItem = history[0] || null;
 
   return (
@@ -39,7 +36,7 @@ const MyFarm = () => {
           </button>
         </header>
 
-        {/* AI & SCAN CARDS - Same Design */}
+        {/* AI & SCAN CARDS - */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-r from-green-600 to-green-700 text-white p-6 rounded-3xl shadow-xl">
             <h3 className="text-xl font-bold">Latest Health Report</h3>
@@ -65,7 +62,7 @@ const MyFarm = () => {
           </div>
         </div>
 
-        {/* ISSUES FEED - Frontend Same, but 2-3 issues will stack here */}
+        {/* ISSUES FEED - Frontend Same, but issues will stack here */}
         <main className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
             <h3 className="text-xl font-bold text-gray-700 underline decoration-green-500 decoration-4">Issue History (Timeline)</h3>
@@ -110,4 +107,5 @@ const MyFarm = () => {
     </div>
   );
 };
+export default MyFarm;
 export default MyFarm;
