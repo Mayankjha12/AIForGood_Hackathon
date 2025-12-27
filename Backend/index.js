@@ -13,21 +13,23 @@ app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// ML Scoring Logic
 const calculateFarmHealth = (data) => {
     let score = 100;
     if (data.currentProblem && data.currentProblem !== "None") score -= 30;
-    if (data.soilType === "Sandy" && data.irrigationSource === "Canal") score -= 10;
+    if (data.soilType === "Sandy") score -= 5;
     return Math.max(score, 10);
 };
 
-// --- 1. CHATBOT API (Pure English ML Advice) ---
+// --- 1. CHATBOT API (English Expert Advice) ---
 app.post("/api/ai/chat", async (req, res) => {
     try {
         const { prompt, farmData } = req.body;
         const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-        const context = `You are a Senior Agricultural Scientist. Analyze this profile: 
-        Location: ${farmData?.location}, Crop: ${farmData?.crop}, Health Score: ${farmData?.healthScore}/100.
-        Provide technical advice in English language only.`;
+        const context = `You are KrishiSakhi AI, an expert agricultural advisor. 
+        Context: Location: ${farmData?.location}, Crop: ${farmData?.crop}, Soil: ${farmData?.soilType}, Health Score: ${farmData?.healthScore}/100.
+        Provide professional technical advice in English language only.`;
+        
         const result = await model.generateContent(`${context} \nFarmer says: ${prompt}`);
         const response = await result.response;
         res.json({ reply: response.text() });
@@ -36,7 +38,7 @@ app.post("/api/ai/chat", async (req, res) => {
     }
 });
 
-// --- 2. SUBMIT WITH ML SCORE ---
+// --- 2. SUBMIT FORM (With ML Score) ---
 app.post("/api/farms/submit", async (req, res) => {
     try {
         const healthScore = calculateFarmHealth(req.body);
@@ -48,7 +50,7 @@ app.post("/api/farms/submit", async (req, res) => {
     }
 });
 
-// --- 3. NEW: GET ALL HISTORY (One below another) ---
+// --- 3. NEW: GET ALL HISTORY (Vertical Feed) ---
 app.get("/api/farms/history", async (req, res) => {
     try {
         const history = await Farm.find().sort({ createdAt: -1 }); // Newest first
@@ -58,7 +60,17 @@ app.get("/api/farms/history", async (req, res) => {
     }
 });
 
-mongoose.connect(process.env.MONGO_URI).then(() => console.log("✅ ML Backend Ready"));
+// Other routes...
+app.post("/api/feedback", async (req, res) => {
+    try {
+        const feedback = new Feedback(req.body);
+        await feedback.save();
+        res.status(201).json({ success: true });
+    } catch (err) { res.status(400).json({ error: err.message }); }
+});
+
+mongoose.connect(process.env.MONGO_URI).then(() => console.log("✅ Backend with History Ready"));
 
 const PORT = process.env.PORT || 5001;
+app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
 app.listen(PORT, () => console.log(`🚀 Server on port ${PORT}`));
