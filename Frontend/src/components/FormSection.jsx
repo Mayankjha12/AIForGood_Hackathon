@@ -7,7 +7,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     const [voiceOutput, setVoiceOutput] = useState('');
     const [isRecording, setIsRecording] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [chatReply, setChatReply] = useState("");
+    const [chatReply, setChatReply] = useState({ solution: "", predictions: [] });
     const [isChatLoading, setIsChatLoading] = useState(false);
 
     const handleLocationDetect = () => {
@@ -45,11 +45,11 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
         try {
             const response = await axios.post(`${backendURL}/api/farms/submit`, formData);
             if (response.data.success) {
-                // Instant Expert Advice Call
+                // Instant Expert Call
                 const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
                     farmData: { ...formData, healthScore: response.data.score }
                 });
-                setChatReply(aiRes.data.reply);
+                setChatReply(aiRes.data);
                 setIsChatOpen(true);
             }
         } catch (error) { console.error("Error:", error); }
@@ -57,35 +57,78 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     };
 
     return (
-        <section className="py-12 bg-gray-50 min-h-screen">
+        <section className="py-12 bg-gray-50 min-h-screen font-lato">
             <div className="max-w-6xl mx-auto px-4">
-                <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
-                <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
-                    <div className="flex-1 p-8 rounded-2xl bg-green-50/50 flex flex-col items-center">
-                        <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
-                            <i className={`fa-solid fa-microphone text-3xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
+                <h2 className="text-center text-4xl font-black text-green-600 mb-8">{langData.formHeading}</h2>
+                <div className="bg-white p-8 rounded-[3rem] shadow-xl flex flex-col lg:flex-row gap-8">
+                    <div className="flex-1 p-8 rounded-3xl bg-green-50/50 flex flex-col items-center">
+                        <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-6 shadow-inner ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
+                            <i className={`fa-solid fa-microphone text-4xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
                         </div>
-                        <button type="button" onClick={startVoiceRecording} className="px-8 py-3 rounded-full font-bold text-white bg-green-600 w-full hover:bg-green-700">
-                            {isRecording ? 'Listening...' : 'Start Voice Input'}
+                        <button type="button" onClick={startVoiceRecording} className="px-8 py-4 rounded-2xl font-black text-white bg-green-600 w-full hover:bg-green-700 shadow-lg transition">
+                            {isRecording ? 'KrishiSakhi is listening...' : 'Start Voice Input'}
                         </button>
-                        <p className="mt-4 text-sm italic text-gray-500">{voiceOutput || "Transcript will appear here..."}</p>
+                        <p className="mt-6 text-sm italic text-gray-500 text-center">{voiceOutput || "Speak your farm problem here..."}</p>
                     </div>
+                    
                     <div className="flex-1">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
-                            <button type="submit" disabled={isChatLoading} className="w-full py-4 bg-green-600 text-white font-bold rounded-2xl">
-                                {isChatLoading ? 'Analyzing...' : langData.submitBtn}
+                            <button type="submit" disabled={isChatLoading} className="w-full py-5 bg-green-600 text-white font-black text-lg rounded-[2rem] shadow-2xl hover:bg-green-700 transition disabled:bg-gray-400">
+                                {isChatLoading ? 'Analyzing Soil & Health...' : langData.submitBtn}
                             </button>
                         </form>
                     </div>
                 </div>
+
+                {/* --- BIG SMART CHATBOT MODAL --- */}
                 {isChatOpen && (
-                    <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
-                        <div className="flex justify-between items-center mb-4 font-bold text-gray-800">
-                            <span><i className="fa-solid fa-robot text-green-600 mr-2"></i> Expert Advice</span>
-                            <button onClick={() => setIsChatOpen(false)}>✖</button>
+                    <div className="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[100] p-4">
+                        <div className="bg-white w-full max-w-2xl rounded-[3rem] shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+                            <div className="bg-green-600 p-8 text-white flex justify-between items-center border-b-8 border-green-700">
+                                <div className="flex items-center gap-4">
+                                    <i className="fa-solid fa-robot text-3xl"></i>
+                                    <div>
+                                        <h3 className="text-2xl font-black">KrishiSakhi Expert Analysis</h3>
+                                        <p className="text-xs text-green-100 font-bold">Health Score: {chatReply.score}/100</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => setIsChatOpen(false)} className="text-white hover:rotate-90 transition text-2xl">✖</button>
+                            </div>
+
+                            <div className="p-8 space-y-8 overflow-y-auto max-h-[70vh]">
+                                {/* 1. Crop Predictions Card */}
+                                <div className="bg-green-50 p-6 rounded-[2rem] border border-green-100">
+                                    <h4 className="text-green-800 font-black mb-4 flex items-center gap-2">
+                                        <i className="fa-solid fa-seedling"></i> Top 3 Recommended Crops
+                                    </h4>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {chatReply.predictions?.map((crop, i) => (
+                                            <div key={i} className="bg-white p-3 rounded-xl shadow-sm text-center font-bold text-green-700 border border-green-200">
+                                                {crop}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* 2. Technical Solution */}
+                                <div className="space-y-4">
+                                    <h4 className="text-gray-800 font-black flex items-center gap-2">
+                                        <i className="fa-solid fa-list-check text-green-600"></i> Expert Recommendation
+                                    </h4>
+                                    <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100 text-gray-700 whitespace-pre-wrap leading-relaxed text-sm italic">
+                                        {chatReply.solution}
+                                    </div>
+                                </div>
+
+                                <button 
+                                    onClick={() => window.location.href='/myfarm'}
+                                    className="w-full py-5 bg-gray-900 text-white font-black rounded-[1.5rem] shadow-xl hover:bg-black transition flex items-center justify-center gap-2"
+                                >
+                                    <i className="fa-solid fa-chart-line"></i> Go to My Farm Dashboard
+                                </button>
+                            </div>
                         </div>
-                        <p className="text-sm text-gray-700 leading-relaxed">{chatReply}</p>
                     </div>
                 )}
             </div>
