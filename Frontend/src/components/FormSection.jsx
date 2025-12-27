@@ -9,7 +9,7 @@ const languageMap = {
     "ks": "Kashmiri", "kok": "Konkani", "mai": "Maithili", "ne": "Nepali"
 };
 
-const FormSection = ({ langData, currentLang, onLangChange }) => {
+const FormSection = ({ langData, currentLang, onLangChange, onFormSubmitSuccess }) => {
     const [formData, setFormData] = useState({});
     const [voiceOutput, setVoiceOutput] = useState('');
     const [isRecording, setIsRecording] = useState(false);
@@ -24,7 +24,6 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
         'kok': 'kok-IN', 'mai': 'mai-IN', 'ne': 'ne-IN'
     };
 
-    // Voice Recording Logic
     const startVoiceRecording = () => {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) return;
@@ -40,7 +39,6 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
         recognition.start();
     };
 
-    // Location Detect Logic
     const handleLocationDetect = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -66,7 +64,10 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const backendURL = 'https://kisan-sakhi-new.onrender.com';
+        setIsChatLoading(true); // Start loading immediately
+        
         try {
+            // 1. Submit Data
             const response = await axios.post(`${backendURL}/api/farms/submit`, {
                 ...formData,
                 voiceTranscript: voiceOutput,
@@ -74,17 +75,23 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
             });
 
             if (response.data.success) {
-                setIsChatLoading(true);
+                // 2. Fetch AI Advice
                 const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
                     prompt: "Provide technical agricultural advice for this submission.",
                     farmData: { ...formData, healthScore: response.data.score }
                 });
+                
                 setChatReply(aiRes.data.reply);
                 setIsChatOpen(true);
                 setIsChatLoading(false);
+                
+                // Optional: Alert the user success
+                alert("Data Submitted Successfully! Check AI Chatbot for advice.");
             }
         } catch (error) {
-            alert("Submission error. Check server.");
+            setIsChatLoading(false);
+            console.error("Submission Error Details:", error.response || error);
+            alert("Submission error. Make sure the server is awake by visiting the backend URL in a new tab.");
         }
     };
 
@@ -94,7 +101,6 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                 <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
                     
-                    {/* Left Panel: Voice & Language */}
                     <div className="flex-1 p-8 rounded-2xl bg-green-50/50 border border-green-100 flex flex-col items-center">
                         <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
                             <i className={`fa-solid fa-microphone text-3xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
@@ -112,12 +118,11 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                         </div>
                     </div>
 
-                    {/* Right Panel: Form Inputs */}
                     <div className="flex-1 p-2">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
                             <button type="submit" className="w-full py-4 bg-green-600 text-white font-bold rounded-2xl shadow-xl hover:bg-green-700">
-                                {isChatLoading ? 'Analyzing...' : langData.submitBtn}
+                                {isChatLoading ? 'Analyzing & Saving...' : langData.submitBtn}
                             </button>
                         </form>
                     </div>
@@ -134,7 +139,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                         </div>
                         <p className="text-sm italic bg-gray-50 p-4 rounded-2xl border">"{chatReply}"</p>
                         <div className="mt-4 text-center">
-                            <a href="/myfarm" className="text-xs font-bold text-green-600 hover:underline">View Farm History tracking →</a>
+                            <a href="/myfarm" className="text-xs font-bold text-green-600 hover:underline">View Farm History Tracking →</a>
                         </div>
                     </div>
                 )}
