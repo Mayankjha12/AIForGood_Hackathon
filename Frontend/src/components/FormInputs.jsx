@@ -1,8 +1,7 @@
 import React from 'react';
 
-// Maps a form field key to its corresponding label and options in the translations data
 const fieldMap = [
-    { key: 'location', labelKey: 'locationLabel', optionsKey: 'locationOptions', type: 'select' },
+    // Location hatake neeche manually handle kiya gaya hai niche
     { key: 'landSize', labelKey: 'landSizeLabel', optionsKey: 'landSizeOptions', type: 'select' },
     { key: 'crop', labelKey: 'cropLabel', optionsKey: 'cropOptions', type: 'select' },
     { key: 'soilType', labelKey: 'soilTypeLabel', optionsKey: 'soilTypeOptions', type: 'select' },
@@ -14,21 +13,40 @@ const fieldMap = [
     { key: 'problem', labelKey: 'problemLabel', optionsKey: 'problemOptions', type: 'select' }
 ];
 
-function FormInputs({ langData, setFormData }) {
+function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
     
-    // Handler to update form state in the parent FormSection component
     const handleChange = (e) => {
-        const { id, value, type, files } = e.target;
-        
-        // This ensures all required fields are being tracked
-        setFormData(prev => ({
-            ...prev,
-            [id]: type === 'file' ? files[0] : value
-        }));
+        const { id, value } = e.target;
+        setFormData(prev => ({ ...prev, [id]: value }));
     };
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 1. NAYA LOCATION UI: Options hat gaye, button aa gaya */}
+            <div className="flex flex-col space-y-1.5 md:col-span-2">
+                <label className="text-sm font-semibold text-gray-600">
+                    {langData.locationLabel}
+                </label>
+                <div className="flex gap-2">
+                    <input
+                        id="location"
+                        type="text"
+                        readOnly
+                        value={formData.location || ""}
+                        placeholder="Click Detect for GPS Location"
+                        className="flex-1 p-2.5 bg-gray-100 border border-gray-300 rounded-xl text-sm outline-none"
+                    />
+                    <button
+                        type="button"
+                        onClick={onLocationDetect}
+                        className="px-4 bg-green-100 text-green-700 font-bold rounded-xl border border-green-200 hover:bg-green-200 transition-all text-xs"
+                    >
+                        <i className="fa-solid fa-location-dot mr-1"></i> Detect
+                    </button>
+                </div>
+            </div>
+
+            {/* 2. PURANE FEATURES: As-it-is baki fields */}
             {fieldMap.map(field => (
                 <div key={field.key} className="flex flex-col space-y-1.5">
                     <label htmlFor={field.key} className="text-sm font-semibold text-gray-600">
@@ -38,13 +56,11 @@ function FormInputs({ langData, setFormData }) {
                         <select
                             id={field.key}
                             onChange={handleChange}
-                            className="p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all text-sm"
+                            className="p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-sm"
                             defaultValue={langData[field.optionsKey]?.[0]}
                         >
                             {(langData[field.optionsKey] || []).map((option, index) => (
-                                <option key={index} value={option}>
-                                    {option}
-                                </option>
+                                <option key={index} value={option}>{option}</option>
                             ))}
                         </select>
                     ) : (
@@ -52,7 +68,7 @@ function FormInputs({ langData, setFormData }) {
                             id={field.key}
                             type={field.type}
                             onChange={handleChange}
-                            className="p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all text-sm"
+                            className="p-2.5 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 outline-none text-sm"
                         />
                     )}
                 </div>
