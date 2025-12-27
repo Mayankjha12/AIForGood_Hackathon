@@ -11,15 +11,11 @@ const languageMap = {
 
 const FormSection = ({ langData, currentLang, onLangChange }) => {
     const [formData, setFormData] = useState({});
-    const [voiceOutput, setVoiceOutput] = useState('');
-    const [isRecording, setIsRecording] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
     const [chatReply, setChatReply] = useState("");
     const [isChatLoading, setIsChatLoading] = useState(false);
 
-    const voiceLangCodes = { 'en': 'en-IN', 'hi': 'hi-IN', 'pa': 'pa-IN' };
-
-    // 1. LOCATION AUTODETECT LOGIC (STRICT)
+    // GPS Logic (No changes here)
     const handleLocationDetect = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -32,18 +28,13 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                         const address = geoRes.data.address;
                         const city = address.city || address.town || address.village || "Unknown City";
                         const state = address.state || "Unknown State";
-                        const fullLoc = `${city}, ${state}`;
-                        
-                        setFormData(prev => ({ ...prev, location: fullLoc }));
-                        console.log("Location detected:", fullLoc);
+                        setFormData(prev => ({ ...prev, location: `${city}, ${state}` }));
                     } catch (err) {
                         setFormData(prev => ({ ...prev, location: `Lat: ${latitude.toFixed(2)}, Lon: ${longitude.toFixed(2)}` }));
                     }
                 },
                 () => alert("Please grant GPS permission to detect your location.")
             );
-        } else {
-            alert("Geolocation is not supported by your browser.");
         }
     };
 
@@ -53,12 +44,10 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
         try {
             const response = await axios.post(`${backendURL}/api/farms/submit`, {
                 ...formData,
-                voiceTranscript: voiceOutput,
                 dateSubmitted: new Date().toISOString()
             });
 
             if (response.data.success) {
-                // 2. OPEN CHATBOT INSTANTLY
                 setIsChatLoading(true);
                 const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
                     prompt: "Provide technical agricultural advice for this submission in English.",
@@ -76,14 +65,12 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
             <div className="max-w-6xl mx-auto px-4">
                 <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
-                    {/* Left Panel */}
                     <div className="flex-1 flex flex-col items-center border-r pr-8">
                         <select className="p-3 border rounded-xl w-full mb-4" value={currentLang} onChange={(e) => onLangChange(e.target.value)}>
                             {Object.keys(languageMap).map(lang => (<option key={lang} value={lang}>{languageMap[lang]}</option>))}
                         </select>
-                        <button onClick={() => {/* voice record logic */}} className="px-8 py-3 bg-green-600 text-white rounded-full w-full">Voice Input</button>
+                        <p className="text-sm text-gray-500 italic text-center">Language selected: {languageMap[currentLang]}</p>
                     </div>
-                    {/* Right Panel */}
                     <div className="flex-1">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
@@ -93,10 +80,12 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                         </form>
                     </div>
                 </div>
-                {/* AI CHATBOT */}
                 {isChatOpen && (
                     <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
-                        <div className="flex justify-between items-center mb-4"><h4 className="font-bold">AI Expert</h4><button onClick={() => setIsChatOpen(false)}>✖</button></div>
+                        <div className="flex justify-between items-center mb-4">
+                            <h4 className="font-bold">AI Technical Advice</h4>
+                            <button onClick={() => setIsChatOpen(false)}>✖</button>
+                        </div>
                         <p className="text-sm italic">"{chatReply}"</p>
                     </div>
                 )}
