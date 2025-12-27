@@ -1,15 +1,17 @@
 import React from 'react';
 
+// Syncing keys with Backend Model (Farm.js)
 const fieldMap = [
     { key: 'landSize', labelKey: 'landSizeLabel', optionsKey: 'landSizeOptions', type: 'select' },
     { key: 'crop', labelKey: 'cropLabel', optionsKey: 'cropOptions', type: 'select' },
     { key: 'soilType', labelKey: 'soilTypeLabel', optionsKey: 'soilTypeOptions', type: 'select' },
     { key: 'soilCharacter', labelKey: 'soilCharacterLabel', optionsKey: 'soilCharacterOptions', type: 'select' },
-    { key: 'irrigation', labelKey: 'irrigationLabel', optionsKey: 'irrigationOptions', type: 'select' },
-    { key: 'sowing', labelKey: 'sowingLabel', optionsKey: 'sowingOptions', type: 'select' },
+    // ID changed to 'irrigationSource' to match Backend
+    { key: 'irrigationSource', labelKey: 'irrigationLabel', optionsKey: 'irrigationOptions', type: 'select' },
+    { key: 'sowingType', labelKey: 'sowingLabel', optionsKey: 'sowingOptions', type: 'select' },
     { key: 'sowingDate', labelKey: 'sowingDateLabel', type: 'date' },
     { key: 'cropStage', labelKey: 'cropStageLabel', optionsKey: 'cropStageOptions', type: 'select' },
-    { key: 'problem', labelKey: 'problemLabel', optionsKey: 'problemOptions', type: 'select' }
+    { key: 'currentProblem', labelKey: 'problemLabel', optionsKey: 'problemOptions', type: 'select' }
 ];
 
 function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
@@ -20,6 +22,7 @@ function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Location Field with Auto-detect */}
             <div className="flex flex-col space-y-1.5 md:col-span-2">
                 <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
                     <i className="fa-solid fa-location-crosshairs text-green-600"></i>
@@ -44,6 +47,7 @@ function FormInputs({ langData, setFormData, formData, onLocationDetect }) {
                 </div>
             </div>
 
+            {/* Dynamic Fields */}
             {fieldMap.map(field => (
                 <div key={field.key} className="flex flex-col space-y-1.5">
                     <label htmlFor={field.key} className="text-sm font-semibold text-gray-600">
