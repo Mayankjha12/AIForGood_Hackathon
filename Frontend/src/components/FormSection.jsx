@@ -24,7 +24,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
     };
 
     const startVoiceRecording = () => {
-        const SpeechRecognition = window.SpeechRecognition || window.webkitRecognition;
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRecognition) return;
         const recognition = new SpeechRecognition();
         recognition.lang = voiceLangCodes[currentLang] || 'en-IN';
@@ -44,43 +44,41 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                 const { latitude, longitude } = pos.coords;
                 try {
                     const res = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
-                    const addr = res.data.address;
-                    setFormData(prev => ({ ...prev, location: `${addr.city || addr.town}, ${addr.state}` }));
+                    setFormData(prev => ({ ...prev, location: `${res.data.address.city || res.data.address.town}, ${res.data.address.state}` }));
                 } catch (e) { setFormData(prev => ({ ...prev, location: `Lat: ${latitude.toFixed(2)}` })); }
-            }, () => alert("GPS denied"));
+            });
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsChatLoading(true);
+        setIsChatLoading(true); // Button pe loading start
         const backendURL = 'https://kisan-sakhi-new.onrender.com';
         
         try {
-            // Step 1: Submit Form Data
-            const response = await axios.post(`${backendURL}/api/farms/submit`, formData, {
-                headers: { 'Content-Type': 'application/json' }
-            });
+            // STEP 1: Pehle data save karo
+            const response = await axios.post(`${backendURL}/api/farms/submit`, formData);
 
             if (response.data.success) {
-                // Step 2: AI Advice (Gemini)
+                // STEP 2: AI se report lo - 30 seconds tak wait karenge [IMPORTANT CHANGE]
                 try {
                     const aiRes = await axios.post(`${backendURL}/api/ai/chat`, {
-                        prompt: "Provide technical agricultural advice for this submission.",
+                        prompt: "Technical agricultural advice for: " + (formData.currentProblem || "general health"),
                         farmData: { ...formData, healthScore: response.data.score }
-                    });
+                    }, { timeout: 30000 }); // Intezaar badha diya taaki jawab khul sake
+
                     setChatReply(aiRes.data.reply);
-                } catch (aiErr) {
-                    // Agar Gemini 500 error de, toh backup message
-                    setChatReply("Data saved! AI is taking a bit longer to analyze. Please check your 'My Farm' dashboard soon.");
+                } catch (aiTimeout) {
+                    // Agar 30s baad bhi na aaye
+                    setChatReply("Data saved! Your report is being generated. Please check 'My Farm' history in 1 minute.");
                 }
                 setIsChatOpen(true);
             }
         } catch (error) {
             console.error("Submit Error:", error);
-            alert("Network error. Please make sure the backend is active at: " + backendURL);
+            alert("Submission error. Please ensure backend is live.");
         }
-        setIsChatLoading(false);
+        setIsChatLoading(false); // Loading khatam
     };
 
     return (
@@ -89,7 +87,7 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                 <h2 className="text-center text-4xl font-bold text-green-600 mb-8">{langData.formHeading}</h2>
                 <div className="bg-white p-8 rounded-3xl shadow-xl flex flex-col lg:flex-row gap-8">
                     
-                    {/* Left Card: Voice Input */}
+                    {/* Voice Card */}
                     <div className="flex-1 p-8 rounded-2xl bg-green-50/50 border border-green-100 flex flex-col items-center">
                         <div className={`w-20 h-20 rounded-full flex items-center justify-center mb-6 ${isRecording ? 'bg-red-100 animate-pulse' : 'bg-green-100'}`}>
                             <i className={`fa-solid fa-microphone text-3xl ${isRecording ? 'text-red-500' : 'text-green-600'}`}></i>
@@ -107,29 +105,31 @@ const FormSection = ({ langData, currentLang, onLangChange }) => {
                         </div>
                     </div>
 
-                    {/* Right Card: Inputs */}
+                    {/* Form Inputs */}
                     <div className="flex-1 p-2">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <FormInputs langData={langData} setFormData={setFormData} formData={formData} onLocationDetect={handleLocationDetect} />
-                            <button type="submit" className="w-full py-4 bg-green-600 text-white font-bold rounded-2xl shadow-xl hover:bg-green-700">
-                                {isChatLoading ? 'Analyzing & Saving...' : langData.submitBtn}
+                            <button type="submit" disabled={isChatLoading} className="w-full py-4 bg-green-600 text-white font-bold rounded-2xl shadow-xl hover:bg-green-700 disabled:bg-gray-400">
+                                {isChatLoading ? 'Analyzing & Saving Expert Advice...' : langData.submitBtn}
                             </button>
                         </form>
                     </div>
                 </div>
 
-                {/* AI Chatbot Popup */}
+                {/* AI Popup Box */}
                 {isChatOpen && (
-                    <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50">
+                    <div className="fixed bottom-10 right-10 w-96 bg-white shadow-2xl rounded-3xl p-6 border-t-8 border-green-600 z-50 animate-bounce-in">
                         <div className="flex justify-between items-center mb-4">
                             <h4 className="font-bold text-gray-800 flex items-center gap-2">
                                 <i className="fa-solid fa-robot text-green-600"></i> KrishiSakhi AI Expert
                             </h4>
                             <button onClick={() => setIsChatOpen(false)} className="text-gray-400 hover:text-red-500">✖</button>
                         </div>
-                        <p className="text-sm italic bg-gray-50 p-4 rounded-2xl border">"{chatReply}"</p>
-                        <div className="mt-4 text-center">
-                            <a href="/myfarm" className="text-xs font-bold text-green-600 hover:underline">View Farm History Tracking →</a>
+                        <div className="max-h-60 overflow-y-auto pr-2">
+                             <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{chatReply}</p>
+                        </div>
+                        <div className="mt-4 text-center border-t pt-2">
+                            <a href="/myfarm" className="text-xs font-bold text-green-600 hover:underline">View History Tracking →</a>
                         </div>
                     </div>
                 )}
