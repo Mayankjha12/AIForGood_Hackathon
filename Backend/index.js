@@ -12,8 +12,8 @@ app.use(cors());
 app.use(express.json());
 
 // API KEY DIRECTLY INSERTED (No .env needed for this)
-const YOUR_GEMINI_KEY = "AIzaSyByXsZByBik7nySE2Nm9-ddYIRQbUvs8-I";
-const genAI = new GoogleGenerativeAI(YOUR_GEMINI_KEY);
+const YOUR_GEMINI_KEY = "AIzaSyBnnjzEU1BrB1H6RrmZelH62f_Fv8VtnuQ";
+const genAI = new GoogleGenerativeAI(AIzaSyBnnjzEU1BrB1H6RrmZelH62f_Fv8VtnuQ);
 
 // ML Heuristic for Health Score
 const calculateFarmHealth = (data) => {
