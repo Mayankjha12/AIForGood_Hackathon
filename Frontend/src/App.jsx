@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FormSection from './components/FormSection';
@@ -12,9 +12,24 @@ import LocalTrend from './components/LocalTrend';
 import Feedback from './components/Feedback';
 import { translations } from './data/translations';
 
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
+import Login from "./pages/Login";
+
 const supportedLangs = Object.keys(translations);
 
 function App() {
+    // Firebase auth state
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    // App state
     const [currentLang, setCurrentLang] = useState('en');
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [currentPage, setCurrentPage] = useState('home'); 
@@ -85,9 +100,13 @@ function App() {
         }
     };
 
+    // **Show Login if user not logged in**
+    if (!user) {
+        return <Login />;
+    }
+
     return (
         <div className="min-h-screen flex flex-col font-lato text-gray-800">
-            {/* Fixed navbar with backdrop blur */}
             <Header 
                 langData={langData} 
                 currentLang={currentLang}
