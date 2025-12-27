@@ -1,0 +1,74 @@
+/* Import Tailwind directives. This is crucial for Tailwind to work. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Custom Fonts and Variables (Matching your original CSS) --- */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@500;700&display=swap');
+
+:root {
+    --primary-bg: #FFFFFF;
+    --light-green-bg: #E8F5E9;
+    --medium-green: #4CAF50;
+    --text-color: #333333;
+    --subtle-grey: #BDBDBD;
+    --dark-overlay: rgba(0, 0, 0, 0.5);
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Lato', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    color: var(--text-color);
+    background-color: var(--primary-bg);
+}
+
+.font-poppins {
+    font-family: var(--font-heading);
+}
+
+/* Base styles for the Hero section, applying original aesthetic */
+.hero {
+    /* These properties are essential for desktop hero image styling */
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}
+
+/* --- Mobile-Specific Overrides (Fixing Image and Layout) --- */
+@media (max-width: 768px) {
+    
+    /* Fixes Hero Image: Ensures the farmer is visible and the image fills the screen vertically */
+    .hero {
+        padding: 0 1rem !important;
+        height: 60vh !important; 
+        background-size: cover !important; 
+        background-position: center 30% !important; /* Adjust position to show the person */
+        background-repeat: no-repeat !important;
+        
+        /* Layout fix to move content to the bottom of the visible area */
+        @apply flex justify-center items-end;
+    }
+    
+    /* Form Layout Fixes */
+    .input-page .container {
+        /* This forces the two panels (left/right) to stack vertically and take full width */
+        @apply flex-col gap-4 p-2; 
+    }
+    
+    .left-panel, .right-panel {
+        @apply max-w-full w-full; 
+    }
+
+    /* Navigation Fixes: The nav-menu is hidden in the Header.js component. */
+    /* If you add a hamburger menu, you would use JS to toggle a class (e.g., .nav-menu.active) */
+    .nav-menu {
+        display: none !important; 
+    }
+
+    .navbar {
+        /* Ensures logo and buttons stay on top */
+        @apply flex-wrap justify-between;
+        padding: 0.5rem 1rem !important;
+    }
+}
