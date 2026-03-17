@@ -1,67 +1,55 @@
-// Consolidates all translations for the entire application (Nav, Hero, Form, Footer)
 export const translations = {
     en: {
-        // Nav & Hero Text
         home: 'Home', myFarm: 'My Farm', todo: 'To-Do List', trend: 'Local Trend', feedback: 'Feedback',
         search: 'Search...', websiteLanguage: "Website Language:",
-        heroTitle: 'KrishiSakhi', heroSubtitle: '', heroDate: '', heroBtn: 'Helping Farmers to build better',
+        heroTitle: 'KrishiSakhi', heroSubtitle: '', heroDate: '', heroBtn: 'Helping Farmers Build Better',
         voiceInputTitle: "Voice Input", voiceInputSubtitle: "Record your details in your local language.", 
-        formHeading: 'Enter the Form Detail', formDetailsHeading: "Farm Details", submitBtn: "Submit",
-        footerSchemes: 'Schemes', footerMarketPrices: 'Market Prices', footerContact: 'Contact', footerCopy: '© 2025 KrishiSakhi. All rights reserved.', 
-        
-        // Form Labels
+        formHeading: 'Enter Farm Details', formDetailsHeading: "Farm Details", submitBtn: "Submit",
+        footerSchemes: 'Schemes', footerMarketPrices: 'Market Prices', footerContact: 'Contact', footerCopy: '© 2026 KrishiSakhi. All rights reserved.', 
         locationLabel: "Location", landSizeLabel: "Land Size", cropLabel: "Crop", soilTypeLabel: "Soil Type",
         soilCharacterLabel: "Soil Character", irrigationLabel: "Irrigation Source", sowingLabel: "Sowing Type", 
-        sowingDateLabel: "Sowing Date", cropStageLabel: "Crop Stage", problemLabel: "Current Problem", uploadImageLabel: "Upload Image",
-        
-        // Dropdown Options
-        locationOptions: ["Select Location", "Auto-detect GPS", "District A", "District B", "District C"],
+        sowingDateLabel: "Sowing Date", cropStageLabel: "Crop Stage", problemLabel: "Current Problem (Speak)", uploadImageLabel: "Upload Image",
         landSizeOptions: ["<1 acre", "1–5 acres", "5+ acres"], cropOptions: ["Wheat", "Rice", "Maize", "Soybean"], 
         soilTypeOptions: ["Sandy", "Clay", "Loamy", "Black"],
-        soilCharacterOptions: ["Select Soil Character", "Not Sure", "Black", "Red", "Yellow", "Brown", "High Fertility", "Low Fertility"],
+        soilCharacterOptions: ["Not Sure", "Black", "Red", "Yellow", "Brown", "High Fertility", "Low Fertility"],
         irrigationOptions: ["Canal", "Tube Well", "Rainfed", "Pond"], sowingOptions: ["Manual", "Machine"],
         cropStageOptions: ["Select Stage", "Seedling", "Vegetative", "Flowering", "Harvesting"],
-        problemOptions: ["Select Problem", "Fertilizer Issue", "Irrigation Issue", "Disease", "Pest", "Other"]
+        problemOptions: ["Select Problem", "Pests", "Yellow Leaves", "Water Issue", "Disease", "Other"]
     },
     hi: {
-        home: 'होम', myFarm: 'मेरा खेत', todo: 'कार्य सूची', trend: 'स्थानीय रुझान', feedback: 'फीडबैक',
+        home: 'होम', myFarm: 'मेरा खेत', todo: 'कार्य सूची', trend: 'बाजार भाव', feedback: 'सुझाव',
         search: 'खोजें...', websiteLanguage: "वेबसाइट भाषा:",
-        heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'किसानों को बेहतर बनाने में मदद',
-        voiceInputTitle: "ध्वनि इनपुट", voiceInputSubtitle: "अपनी जानकारी अपनी स्थानीय भाषा में रिकॉर्ड करें।", 
-        formHeading: "फॉर्म विवरण दर्ज करें", formDetailsHeading: "खेत का विवरण", submitBtn: "सबमिट करें",
-        footerSchemes: 'योजनाएं', footerMarketPrices: 'बाजार कीमतें', footerContact: 'संपर्क', footerCopy: '© 2025 कृषि सखी। सर्वाधिकार सुरक्षित।',
-        
-        locationLabel: "स्थान", landSizeLabel: "भूमि का आकार", cropLabel: "फसल", soilTypeLabel: "मिट्टी का प्रकार",
-        soilCharacterLabel: "मिट्टी का चरित्र", irrigationLabel: "सिंचाई स्रोत", sowingLabel: "बुवाई प्रकार", 
-        sowingDateLabel: "बुवाई की तिथि", cropStageLabel: "फसल का चरण", problemLabel: "वर्तमान समस्या", uploadImageLabel: "छवि अपलोड करें",
-        
-        locationOptions: ["स्थान चुनें", "ऑटो-डिटेक्ट GPS", "जिला A", "जिला B", "जिला C"],
-        landSizeOptions: ["<1 एकड़", "1–5 एकड़", "5+ एकड़"], cropOptions: ["गेहूं", "चावल", "मक्का", "सोयाबीन"], 
+        heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'किसान भाइयों की मदद के लिए',
+        voiceInputTitle: "ध्वनि इनपुट", voiceInputSubtitle: "अपनी जानकारी अपनी भाषा में बोलकर भरें।", 
+        formHeading: "खेती का विवरण दर्ज करें", formDetailsHeading: "खेत का विवरण", submitBtn: "विवरण भेजें",
+        footerSchemes: 'योजनाएं', footerMarketPrices: 'बाजार कीमतें', footerContact: 'संपर्क', footerCopy: '© 2026 कृषि सखी। सर्वाधिकार सुरक्षित।',
+        locationLabel: "स्थान (शहर/गाँव)", landSizeLabel: "भूमि का आकार", cropLabel: "अभी की फसल", soilTypeLabel: "मिट्टी का प्रकार",
+        soilCharacterLabel: "मिट्टी की खासियत", irrigationLabel: "सिंचाई का साधन", sowingLabel: "बुवाई का तरीका", 
+        sowingDateLabel: "बुवाई की तिथि", cropStageLabel: "फसल का चरण", problemLabel: "अभी की समस्या (बोलकर बताएं)", uploadImageLabel: "छवि अपलोड करें",
+        landSizeOptions: ["1 एकड़ से कम", "1–5 एकड़", "5+ एकड़"], cropOptions: ["गेहूं (Wheat)", "धान (Rice)", "मक्का (Maize)", "सोयाबीन"], 
         soilTypeOptions: ["रेतीली", "चिकनी", "दोमट", "काली"],
-        soilCharacterOptions: ["मिट्टी का चरित्र चुनें", "सुनिश्चित नहीं", "काली", "लाल", "पीली", "भूरी", "उच्च उर्वरता", "कम उर्वरता"],
-        irrigationOptions: ["नहर", "ट्यूबवेल", "वर्षा आधारित", "तालाब"], sowingOptions: ["हाथ से", "मशीन से"],
-        cropStageOptions: ["चरण चुनें", "पौध", "वनस्पति", "फूल आना", "कटाई"],
-        problemOptions: ["समस्या चुनें", "खाद की समस्या", "सिंचाई की समस्या", "रोग", "कीट", "अन्य"]
+        soilCharacterOptions: ["पता नहीं", "काली", "लाल", "पीली", "भूरी", "उच्च उर्वरता", "कम उर्वरता"],
+        irrigationOptions: ["नहर", "ट्यूबवेल", "बारिश", "तालाब"], sowingOptions: ["हाथ से", "मशीन से"],
+        cropStageOptions: ["बीज बोना", "पौधा बनना", "फूल आना", "कटाई"],
+        problemOptions: ["समस्या चुनें", "कीड़े लगना", "पत्ते पीले होना", "पानी की कमी", "बीमारी", "अन्य"]
     },
     pa: {
-        home: 'ਮੁੱਖ ਪੰਨਾ', myFarm: 'ਮੇਰਾ ਖੇਤ', todo: 'ਕਰਨ ਵਾਲੀ ਸੂਚੀ', trend: 'ਸਥਾਨਕ ਰੁਝਾਨ', feedback: 'ਫੀਡਬੈਕ',
+        home: 'ਮੁੱਖ ਪੰਨਾ', myFarm: 'ਮੇਰਾ ਖੇਤ', todo: 'ਕੰਮ ਦੀ ਸੂਚੀ', trend: 'ਬਾਜ਼ਾਰ ਦੇ ਰੁਝਾਨ', feedback: 'ਫੀਡਬੈਕ',
         search: 'ਖੋਜ...', websiteLanguage: "ਵੈਬਸਾਈਟ ਭਾਸ਼ਾ:",
-        heroTitle: 'ਕ੍ਰਿਸ਼ੀ ਸਖੀ', heroSubtitle: '', heroDate: '', heroBtn: 'ਕਿਸਾਨਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਵਿੱਚ ਮਦਦ',
+        heroTitle: 'ਕ੍ਰਿਸ਼ੀ ਸਖੀ', heroSubtitle: '', heroDate: '', heroBtn: 'ਕਿਸਾਨਾਂ ਦੀ ਬਿਹਤਰ ਮਦਦ ਲਈ',
         voiceInputTitle: "ਅਵਾਜ਼ ਇਨਪੁਟ", voiceInputSubtitle: "ਆਪਣੇ ਵੇਰਵੇ ਆਪਣੀ ਸਥਾਨਕ ਭਾਸ਼ਾ ਵਿੱਚ ਰਿਕਾਰਡ ਕਰੋ।", 
-        formHeading: "ਫਾਰਮ ਵੇਰਵੇ ਦਰਜ ਕਰੋ", formDetailsHeading: "ਖੇਤ ਦੇ ਵੇਰਵੇ", submitBtn: "ਸਪੁਰਦ ਕਰੋ",
-        footerSchemes: 'ਯੋਜਨਾਵਾਂ', footerMarketPrices: 'ਬਜ਼ਾਰ ਕੀਮਤਾਂ', footerContact: 'ਸੰਪਰਕ', footerCopy: '© 2025 ਕ੍ਰਿਸ਼ੀ ਸਖੀ। ਸਭ ਅਧਿਕਾਰ ਰਾਖਵੇਂ।',
-        
+        formHeading: "ਫਾਰਮ ਵੇਰਵੇ ਦਰਜ ਕਰੋ", formDetailsHeading: "ਖੇਤ ਦੇ ਵੇਰਵੇ", submitBtn: "ਜਮ੍ਹਾਂ ਕਰੋ",
+        footerSchemes: 'ਯੋਜਨਾਵਾਂ', footerMarketPrices: 'ਬਜ਼ਾਰ ਕੀਮਤਾਂ', footerContact: 'ਸੰਪਰਕ', footerCopy: '© 2026 ਕ੍ਰਿਸ਼ੀ ਸਖੀ। ਸਭ ਅਧਿਕਾਰ ਰਾਖਵੇਂ।',
         locationLabel: "ਟਿਕਾਣਾ", landSizeLabel: "ਜ਼ਮੀਨ ਦਾ ਆਕਾਰ", cropLabel: "ਫ਼ਸਲ", soilTypeLabel: "ਮਿੱਟੀ ਦੀ ਕਿਸਮ",
         soilCharacterLabel: "ਮਿੱਟੀ ਦਾ ਅੱਖਰ", irrigationLabel: "ਸਿੰਚਾਈ ਸਰੋਤ", sowingLabel: "ਬਿਜਾਈ ਕਿਸਮ", 
-        sowingDateLabel: "ਬਿਜਾਈ ਦੀ ਮਿਤੀ", cropStageLabel: "ਫ਼ਸਲ ਦਾ ਪੜਾਅ", problemLabel: "ਮੌਜੂਦਾ ਸਮੱਸਿਆ", uploadImageLabel: "ਚਿੱਤਰ ਅੱਪਲੋਡ ਕਰੋ",
-        
+        sowingDateLabel: "ਬਿਜਾਈ ਦੀ ਮਿਤੀ", cropStageLabel: "ਫ਼ਸਲ ਦਾ ਪੜਾਅ", problemLabel: "ਮੌਜੂਦਾ ਸਮੱਸਿਆ (ਬੋਲ ਕੇ ਦੱਸੋ)", uploadImageLabel: "ਚਿੱਤਰ ਅੱਪਲੋਡ ਕਰੋ",
         locationOptions: ["ਟਿਕਾਣਾ ਚੁਣੋ", "ਆਟੋ-ਡਿਟੈਕਟ GPS", "ਜ਼ਿਲਾ A", "ਜ਼ਿਲਾ B", "ਜ਼ਿਲਾ C"],
-        landSizeOptions: ["<1 ਏਕੜ", "1–5 ਏਕੜ", "5+ ਏਕੜ"], cropOptions: ["ਗੰਧੁਮ", "ਚੌਲ", "ਮੱਕੀ", "ਸੋਯਾਬੀਨ"], 
+        landSizeOptions: ["<1 ਏਕੜ", "1–5 ਏਕੜ", "5+ ਏਕੜ"], cropOptions: ["ਕਣਕ", "ਝੋਨਾ", "ਮੱਕੀ", "ਸੋਯਾਬੀਨ"], 
         soilTypeOptions: ["ਰੇਤਲੀ", "ਚਿਕਣੀ", "ਦੋਮਟ", "ਕਾਲੀ"],
         soilCharacterOptions: ["ਮਿੱਟੀ ਦਾ ਅੱਖਰ ਚੁਣੋ", "ਯਕੀਨੀ ਨਹੀਂ", "ਕਾਲਾ", "ਲਾਲ", "ਪੀਲਾ", "ਭੂਰਾ", "ਉੱਚ ਉਪਜਾਊ ਸ਼ਕਤੀ", "ਘੱਟ ਉਪਜਾਊ ਸ਼ਕਤੀ"],
         irrigationOptions: ["ਨਹਿਰ", "ਟਿਊਬਵੈਲ", "ਵਰਖਾ ਆਧਾਰਿਤ", "ਪੋੰਡ"], sowingOptions: ["ਹੱਥ ਨਾਲ", "ਮਸ਼ੀਨ ਨਾਲ"],
         cropStageOptions: ["ਸਟੇਜ ਚੁਣੋ", "ਪੌਦਾ", "ਸਬਜ਼ੀ", "ਫੁੱਲ", "ਕਟਾਈ"],
-        problemOptions: ["ਸਮੱਸਿਆ ਚੁਣੋ", "ਖਾਦ ਮੁੱਦਾ", "ਸਿੰਚਾਈ ਮੁੱਦਾ", "ਰੋਗ", "ਕੀਟ", "ਹੋਰ"]
+        problemOptions: ["ਸਮੱਸਿਆ ਚੁਣੋ", "ਕੀੜੇ ਲੱਗਣਾ", "ਪੱਤੇ ਪੀਲੇ ਹੋਣਾ", "ਪਾਣੀ ਦੀ ਘਾਟ", "ਰੋਗ", "ਕੀਟ", "ਹੋਰ"]
     },
     mr: {
         home: 'मुख्यपृष्ठ', myFarm: 'माझा शेत', todo: 'काम सूची', trend: 'स्थानिक ट्रेंड', feedback: 'अभिप्राय',
@@ -69,12 +57,10 @@ export const translations = {
         heroTitle: 'कृषी सखी', heroSubtitle: '', heroDate: '', heroBtn: 'शेतकऱ्यांसाठी उत्तम मदत',
         voiceInputTitle: "व्हॉइस इनपुट", voiceInputSubtitle: "आपले तपशील आपल्या स्थानिक भाषेत रेकॉर्ड करा।", 
         formHeading: "फॉर्म तपशील प्रविष्ट करा", formDetailsHeading: "शेतीचे तपशील", submitBtn: "सादर करा",
-        footerSchemes: 'योजना', footerMarketPrices: 'बाजारभाव', footerContact: 'संपर्क', footerCopy: '© 2025 कृषी सखी. सर्व हक्क राखीव।',
-        
+        footerSchemes: 'योजना', footerMarketPrices: 'बाजारभाव', footerContact: 'संपर्क', footerCopy: '© 2026 कृषी सखी. सर्व हक्क राखीव।',
         locationLabel: "स्थान", landSizeLabel: "जमिनीचा आकार", cropLabel: "पिक", soilTypeLabel: "मातीचा प्रकार",
         soilCharacterLabel: "मातीचा प्रकार", irrigationLabel: "सिंचन स्रोत", sowingLabel: "पेरणी प्रकार", 
-        sowingDateLabel: "पेरणीची तारीख", cropStageLabel: "पिकाचा टप्पा", problemLabel: "सध्याची समस्या", uploadImageLabel: "फोटो अपलोड करा",
-        
+        sowingDateLabel: "पेरणीची तारीख", cropStageLabel: "पिकाचा टप्पा", problemLabel: "सध्याची समस्या (बोलून सांगा)", uploadImageLabel: "फोटो अपलोड करा",
         locationOptions: ["स्थान निवडा", "ऑटो-डिटेक्ट GPS", "जिल्हा A", "जिल्हा B", "जिल्हा C"],
         landSizeOptions: ["<1 एकर", "1–5 एकर", "5+ एकर"], cropOptions: ["गहू", "तांदूळ", "मका", "सोयाबीन"], 
         soilTypeOptions: ["वाळूची", "चिकणमाती", "पोयटा माती", "काळी"],
@@ -89,12 +75,10 @@ export const translations = {
         heroTitle: 'કૃષિ સખી', heroSubtitle: '', heroDate: '', heroBtn: 'ખેડૂતોને વધુ સારું બનાવવામાં મદદ',
         voiceInputTitle: "વોઇસ ઇનપુટ", voiceInputSubtitle: "તમારી વિગતો તમારી સ્થાનિક ભાષામાં રેકોર્ડ કરો।", 
         formHeading: "ફોર્મ વિગતો દાખલ કરો", formDetailsHeading: "ખેતીની વિગતો", submitBtn: "સબમિટ કરો",
-        footerSchemes: 'યોજનાઓ', footerMarketPrices: 'બજારના ભાવ', footerContact: 'સંપર્ક', footerCopy: '© 2025 કૃષિ સખી. સર્વાધિકાર સુરક્ષિત।',
-        
+        footerSchemes: 'યોજનાઓ', footerMarketPrices: 'બજારના ભાવ', footerContact: 'સંપર્ક', footerCopy: '© 2026 કૃષિ સખી. સર્વાધિકાર સુરક્ષિત।',
         locationLabel: "સ્થાન", landSizeLabel: "જમીનનું કદ", cropLabel: "પાક", soilTypeLabel: "માટીનો પ્રકાર",
         soilCharacterLabel: "માટીનો પ્રકાર", irrigationLabel: "સિંચાઈ સ્ત્રોત", sowingLabel: "વાવણી પ્રકાર", 
-        sowingDateLabel: "વાવણીની તારીખ", cropStageLabel: "પાકનો તબક્કો", problemLabel: "હાલની સમસ્યા", uploadImageLabel: "ફોટો અપલોડ કરો",
-        
+        sowingDateLabel: "વાવણીની તારીખ", cropStageLabel: "પાકનો તબક્કો", problemLabel: "હાલની સમસ્યા (બોલો)", uploadImageLabel: "ફોટો અપલોડ કરો",
         locationOptions: ["સ્થાન પસંદ કરો", "ઓટો-ડીટેક્ટ GPS", "જિલ્લો A", "જિલ્લો B", "જિલ્લો C"],
         landSizeOptions: ["<1 એકર", "1–5 એકર", "5+ એકર"], cropOptions: ["ઘઉં", "ચોખા", "મકાઈ", "સોયાબીન"], 
         soilTypeOptions: ["રેતાળ", "ચીકણી", "ગોરાડુ", "કાળી"],
@@ -109,19 +93,17 @@ export const translations = {
         heroTitle: 'কৃষি সখী', heroSubtitle: '', heroDate: '', heroBtn: 'কৃষকদের উন্নত করতে সাহায্য',
         voiceInputTitle: "ভয়েস ইনপুট", voiceInputSubtitle: "আপনার স্থানীয় ভাষায় আপনার বিবরণ রেকর্ড করুন।", 
         formHeading: "ফর্মের বিবরণ লিখুন", formDetailsHeading: "খামারের বিবরণ", submitBtn: "জমা দিন",
-        footerSchemes: 'স্কিম', footerMarketPrices: 'বাজার মূল্য', footerContact: 'যোগাযোগ', footerCopy: '© 2025 কৃষি সখী. সর্বস্বত্ব সংরক্ষিত।',
-        
+        footerSchemes: 'স্কিম', footerMarketPrices: 'বাজার মূল্য', footerContact: 'যোগাযোগ', footerCopy: '© 2026 কৃষি সখী. সর্বস্বত্ব সংরক্ষিত।',
         locationLabel: "অবস্থান", landSizeLabel: "জমির আকার", cropLabel: "ফসল", soilTypeLabel: "মাটির ধরন",
         soilCharacterLabel: "মাটির চরিত্র", irrigationLabel: "সেচের উৎস", sowingLabel: "বপনের ধরন", 
-        sowingDateLabel: "বপনের তারিখ", cropStageLabel: "ফসল পর্যায়", problemLabel: "বর্তমান সমস্যা", uploadImageLabel: "ছবি আপলোড করুন",
-        
+        sowingDateLabel: "বপনের তারিখ", cropStageLabel: "ফসল পর্যায়", problemLabel: "বর্তমান সমস্যা (বলুন)", uploadImageLabel: "ছবি আপলোড করুন",
         locationOptions: ["অবস্থান নির্বাচন করুন", "অটো-ডিটেক্ট GPS", "জেলা A", "জেলা B", "জেলা C"],
         landSizeOptions: ["<1 একর", "1–5 একর", "5+ একর"], cropOptions: ["গম", "ধান", "ভুট্টা", "সয়াবিন"], 
         soilTypeOptions: ["বেলে", "কাদামাটি", "দোআঁশ", "কালো"],
         soilCharacterOptions: ["মাটির চরিত্র নির্বাচন করুন", "নিশ্চিত না", "কালো", "লাল", "হলুদ", "বাদামী", "উচ্চ উর্বরতা", "নিম্ন উর্বরता"],
         irrigationOptions: ["খাল", "টিউবওয়েল", "বৃষ্টি নির্ভর", "পুকুর"], sowingOptions: ["ম্যানুয়াল", "মেশিন"],
         cropStageOptions: ["পর্যায় নির্বাচন করুন", "চারা", "উদ্ভিজ্জ", "ফুল", "ফসল কাটা"],
-        problemOptions: ["সমস্যা নির্বাচন করুন", "সার সমস্যা", "সেচ সমস্যা", "রোগ", "পোকামাকড়", "অন্যান্য"]
+        problemOptions: ["সমস্যা নির্বাচন করুন", "সার समस्या", "সেচ সমস্যা", "রোগ", "পোকামাকড়", "অন্যান্য"]
     },
     ta: {
         home: 'முகப்பு', myFarm: 'எனது பண்ணை', todo: 'செய்ய வேண்டியவை', trend: 'உள்ளூர் போக்கு', feedback: 'பின்னூட்டம்',
@@ -129,12 +111,10 @@ export const translations = {
         heroTitle: 'கிரிஷி சகி', heroSubtitle: '', heroDate: '', heroBtn: 'விவசாயிகளுக்கு மேம்படுத்த உதவும்',
         voiceInputTitle: "குரல் உள்ளீடு", voiceInputSubtitle: "உங்கள் உள்ளூர் மொழியில் உங்கள் விவரங்களை பதிவு செய்யவும்।", 
         formHeading: "படிவ விவரங்களை உள்ளிடவும்", formDetailsHeading: "பண்ணை விவரங்கள்", submitBtn: "சமர்ப்பிக்கவும்",
-        footerSchemes: 'திட்டங்கள்', footerMarketPrices: 'சந்தை விலைகள்', footerContact: 'தொடர்பு', footerCopy: '© 2025 கிரிஷி சகி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை।',
-        
+        footerSchemes: 'திட்டங்கள்', footerMarketPrices: 'சந்தை விலைகள்', footerContact: 'தொடர்பு', footerCopy: '© 2026 கிரிஷி சகி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை।',
         locationLabel: "இடம்", landSizeLabel: "நில அளவு", cropLabel: "பயிர்", soilTypeLabel: "மண் வகை",
         soilCharacterLabel: "மண் தன்மை", irrigationLabel: "நீர்ப்பாசன மூலம்", sowingLabel: "விதைப்பு வகை", 
-        sowingDateLabel: "விதைப்பு தேதி", cropStageLabel: "பயிர் நிலை", problemLabel: "தற்போதைய சிக்கல்", uploadImageLabel: "படம் பதிவேற்றம்",
-        
+        sowingDateLabel: "விதைப்பு தேதி", cropStageLabel: "பயிர் நிலை", problemLabel: "தற்போதைய சிக்கல் (பேசவும்)", uploadImageLabel: "படம் பதிவேற்றம்",
         locationOptions: ["இடம் தேர்வு செய்யவும்", "தானாக கண்டறிதல் GPS", "மாவட்டம் A", "மாவட்டம் B", "மாவட்டம் C"],
         landSizeOptions: ["<1 ஏக்கர்", "1–5 ஏக்கர்", "5+ ஏக்கர்"], cropOptions: ["கோதுமை", "அரிசி", "சோளம்", "சோயாபீன்"], 
         soilTypeOptions: ["மணல்", "களிமண்", "வண்டல்", "கருப்பு"],
@@ -149,12 +129,10 @@ export const translations = {
         heroTitle: 'కృషి సఖి', heroSubtitle: '', heroDate: '', heroBtn: 'రైతులకు మెరుగైన సహాయం',
         voiceInputTitle: "వాయిస్ ఇన్పుట్", voiceInputSubtitle: "మీ వివరాలను మీ స్థానిక భాషలో రికార్డ్ చేయండి।", 
         formHeading: "ఫారం వివరాలు నమోదు చేయండి", formDetailsHeading: "పొలం వివరాలు", submitBtn: "సమర్పించు",
-        footerSchemes: 'పథకాలు', footerMarketPrices: 'బజార్ ధరలు', footerContact: 'సంప్రదించండి', footerCopy: '© 2025 కృషి సఖి. అన్ని హక్కులు రిజర్వ్ చేయబడినవి।',
-        
+        footerSchemes: 'పథకాలు', footerMarketPrices: 'బజార్ ధరలు', footerContact: 'సంప్రదించండి', footerCopy: '© 2026 కృషి సఖి. అన్ని హక్కులు రిజర్వ్ చేయబడినవి।',
         locationLabel: "స్థానం", landSizeLabel: "భూమి పరిమాణం", cropLabel: "పంట", soilTypeLabel: "మట్టి రకం",
         soilCharacterLabel: "నేల లక్షణం", irrigationLabel: "పారిశుధ్య మూలం", sowingLabel: "విత్తన రకం", 
-        sowingDateLabel: "విత్తన తేదీ", cropStageLabel: "పంట దశ", problemLabel: "ప్రస్తుత సమస్య", uploadImageLabel: "చిత్రం అప్‌లోడ్ చేయండి",
-        
+        sowingDateLabel: "విత్తన తేదీ", cropStageLabel: "పంట దశ", problemLabel: "ప్రస్తుత సమస్య (మాట్లాడండి)", uploadImageLabel: "చిత్రం అప్‌లోడ్ చేయండి",
         locationOptions: ["స్థానం ఎంచుకోండి", "ఆటో-డిటెక్ట్ GPS", "జిల్లా A", "జిల్లా B", "జిల్లా C"],
         landSizeOptions: ["<1 ఎకరం", "1–5 ఎకరాలు", "5+ ఎకరాలు"], cropOptions: ["గోధుమ", "బియ్యం", "మొక్కజొన్న", "సోయాబీన్"], 
         soilTypeOptions: ["ఇసుక", "బంకమట్టి", "లోమీ", "నలుపు"],
@@ -169,12 +147,10 @@ export const translations = {
         heroTitle: 'ಕೃಷಿ ಸಖಿ', heroSubtitle: '', heroDate: '', heroBtn: 'ರೈತರಿಗೆ ಉತ್ತಮ ಸಹಾಯ ಮಾಡಲು',
         voiceInputTitle: "ಧ್ವನಿ ಇನ್ಪುಟ್", voiceInputSubtitle: "ನಿಮ್ಮ ಸ್ಥಳೀಯ ಭಾಷೆಯಲ್ಲಿ ನಿಮ್ಮ ವಿವರಗಳನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಿ।", 
         formHeading: "ಫಾರ್ಮ್ ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ", formDetailsHeading: "ಫಾರ್ಮ್ ವಿವರಗಳು", submitBtn: "ಸಲ್ಲಿಸಿ",
-        footerSchemes: 'ಯೋಜನೆಗಳು', footerMarketPrices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು', footerContact: 'ಸಂಪರ್ಕ', footerCopy: '© 2025 ಕೃಷಿ ಸಖಿ. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ।',
-        
+        footerSchemes: 'ಯೋಜನೆಗಳು', footerMarketPrices: 'ಮಾರುಕಟ್ಟೆ ಬೆಲೆಗಳು', footerContact: 'ಸಂಪರ್ಕ', footerCopy: '© 2026 ಕೃಷಿ ಸಖಿ. ಎಲ್ಲಾ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ।',
         locationLabel: "ಸ್ಥಳ", landSizeLabel: "ಭೂಮಿ ಗಾತ್ರ", cropLabel: "ಬೆಳೆ", soilTypeLabel: "ಮಣ್ಣು ಪ್ರಕಾರ",
         soilCharacterLabel: "ಮಣ್ಣಿನ ಗುಣಲಕ್ಷಣ", irrigationLabel: "ನೀರಾವರಿ ಮೂಲ", sowingLabel: "ಬಿತ್ತನೆ ಪ್ರಕಾರ", 
-        sowingDateLabel: "ಬಿತ್ತನೆ ದಿನಾಂಕ", cropStageLabel: "ಬೆಳೆ ಹಂತ", problemLabel: "ಪ್ರಸ್ತುತ ಸಮಸ್ಯೆ", uploadImageLabel: "ಚಿತ್ರ ಅಪ್ಲೋಡ್ ಮಾಡಿ",
-        
+        sowingDateLabel: "ಬಿತ್ತನೆ ದಿನಾಂಕ", cropStageLabel: "ಬೆಳೆ ಹಂತ", problemLabel: "ಪ್ರಸ್ತುತ ಸಮಸ್ಯೆ (ಮಾತನಾಡಿ)", uploadImageLabel: "ಚಿತ್ರ ಅಪ್ಲೋಡ್ ಮಾಡಿ",
         locationOptions: ["ಸ್ಥಳ ಆಯ್ಕೆಮಾಡಿ", "ಆಟೋ-ಡಿಟೇಕ್ಟ್ GPS", "ಜಿಲ್ಲೆ A", "ಜಿಲ್ಲೆ B", "ಜಿಲ್ಲೆ C"],
         landSizeOptions: ["<1 ಎಕರೆ", "1–5 ಎಕರೆ", "5+ ಎಕರೆ"], cropOptions: ["ಗೋಧಿ", "ಅಕ್ಕಿ", "ಮೆಕ್ಕೆಜೋಳ", "ಸೋಯಾಬೀನ್"], 
         soilTypeOptions: ["ಮರಳು", "ಕ್ಲೇ", "ಲೋಮಿ", "ಕಪ್ಪು"],
@@ -189,12 +165,10 @@ export const translations = {
         heroTitle: 'കൃഷി സഖി', heroSubtitle: '', heroDate: '', heroBtn: 'കർഷകരെ മെച്ചപ്പെടുത്താൻ സഹായിക്കുക',
         voiceInputTitle: "വോയ്‌സ് ഇൻപുട്ട്", voiceInputSubtitle: "നിങ്ങളുടെ പ്രാദേശിക ഭാഷയിൽ നിങ്ങളുടെ വിവരങ്ങൾ രേഖപ്പെടുത്തുക।", 
         formHeading: "ഫോം വിശദാംശങ്ങൾ നൽകുക", formDetailsHeading: "കൃഷിഭൂമിയുടെ വിവരങ്ങൾ", submitBtn: "സമർപ്പിക്കുക",
-        footerSchemes: 'പദ്ധതികൾ', footerMarketPrices: 'വിപണി വിലകൾ', footerContact: 'ബന്ധപ്പെടുക', footerCopy: '© 2025 കൃഷി സഖി. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം।',
-        
+        footerSchemes: 'പദ്ധതികൾ', footerMarketPrices: 'വിപണി വിലകൾ', footerContact: 'ബന്ധപ്പെടുക', footerCopy: '© 2026 കൃഷി സഖി. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം।',
         locationLabel: "സ്ഥലം", landSizeLabel: "ഭൂമി വലിപ്പം", cropLabel: "വിള", soilTypeLabel: "മണ്ണിന്റെ തരം",
         soilCharacterLabel: "മണ്ണിന്റെ സ്വഭാവം", irrigationLabel: "നനയ്ക്കൽ ഉറവിടം", sowingLabel: "വിത്ത് തരം", 
-        sowingDateLabel: "വിത്ത് തീയതി", cropStageLabel: "വിള ഘട്ടം", problemLabel: "നിലവിലെ പ്രശ്നം", uploadImageLabel: "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക",
-        
+        sowingDateLabel: "വിത്ത് തീയതി", cropStageLabel: "വിള ഘട്ടം", problemLabel: "നിലവിലെ പ്രശ്നം (സംസാരിക്കുക)", uploadImageLabel: "ചിത്രം അപ്‌ലോഡ് ചെയ്യുക",
         locationOptions: ["സ്ഥലം തിരഞ്ഞെടുക്കുക", "ഓട്ടോ-ഡിറ്റക്റ്റ് GPS", "ജില്ല A", "ജില്ല B", "ജില്ല C"],
         landSizeOptions: ["<1 ഏക്കർ", "1–5 ഏക്കർ", "5+ ഏക്കർ"], cropOptions: ["ഗോതമ്പ്", "അരി", "ചോളം", "സോയാബീൻ"], 
         soilTypeOptions: ["മണലിൽ", "കളിമണ്ണ്", "പശിമരാശി", "കറുപ്പ്"],
@@ -208,19 +182,17 @@ export const translations = {
         search: 'ଖୋଜ...', websiteLanguage: "ୱେବସାଇଟ ଭାଷା:",
         heroTitle: 'କୃଷି ସଖି', heroSubtitle: '', heroDate: '', heroBtn: 'ଚାଷୀମାନଙ୍କୁ ଉନ୍ନତ କରିବାରେ ସାହାଯ୍ୟ',
         voiceInputTitle: "ଭଏସ ଇନପୁଟ", voiceInputSubtitle: "ଆପଣଙ୍କ ସ୍ଥାନୀୟ ଭାଷାରେ ଆପଣଙ୍କ ବିବରଣୀ ରେକର୍ଡ କରନ୍ତੁ।", 
-        formHeading: "ଫର୍ମର ବିବରଣୀ ଦିଅନ୍ତୁ", formDetailsHeading: "କ୍ଷେତର ବିବରଣୀ", submitBtn: "ଦାଖଲ କରନ୍ତୁ",
-        footerSchemes: 'ଯୋଜନା', footerMarketPrices: 'ବଜାର ମୂଲ୍ୟ', footerContact: 'ଯୋଗାଯୋଗ', footerCopy: '© 2025 କୃଷି ସଖି. ସର୍ବସତ୍ତ୍ବ ସଂରକ୍ଷିତ।',
-        
+        formHeading: "ଫର୍ମର ବିବରଣୀ ଦିଅନ୍ତੁ", formDetailsHeading: "କ୍ଷେତର ବିବରଣୀ", submitBtn: "ଦାଖଲ କରନ୍ତੁ",
+        footerSchemes: 'ଯୋଜନା', footerMarketPrices: 'ବଜାର ମୂଲ୍ୟ', footerContact: 'ଯୋଗାଯୋଗ', footerCopy: '© 2026 କୃଷି ସଖି. ସର୍ବସତ୍ତ୍ବ ସଂରକ୍ଷିତ।',
         locationLabel: "ଅବସ୍ଥାନ", landSizeLabel: "ଜମିର ଆକାର", cropLabel: "ଫସଲ", soilTypeLabel: "ମାଟିର ପ୍ରକାର",
-        soilCharacterLabel: "ମାଟିର ପ୍ରକାର", irrigationLabel: "ସିଞ୍ଚନ ଉତ୍ସ", sowingLabel: "ବିଜ ବିଜାଇ ପ୍ରକାର", 
-        sowingDateLabel: "ବିଜ ବିਜାଇ ତାରିଖ", cropStageLabel: "ଫସଲର ପର୍ଯ୍ୟାୟ", problemLabel: "ସାମ୍ପ୍ରତିକ ସମସ୍ୟା", uploadImageLabel: "ଫଟୋ ଅପଲୋଡ କରନ୍ତୁ",
-        
+        soilCharacterLabel: "ମାଟିର ପ୍ରକାର", irrigationLabel: "ସିଞ୍ਚନ ଉତ୍ସ", sowingLabel: "বিজ ବିଜାଇ ପ୍ରକାର", 
+        sowingDateLabel: "বিজ ବିଜାଇ ତାରିਖ", cropStageLabel: "ଫସଲର ପର୍ଯ୍ୟାୟ", problemLabel: "ସାମ୍ପ୍ରତିକ ସମସ୍ୟା (କହନ୍ତୁ)", uploadImageLabel: "ଫଟୋ ଅପଲୋଡ କରନ୍ତୁ",
         locationOptions: ["ଅବସ୍ଥାନ ଚୟନ କରନ୍ତୁ", "ଅଟୋ-ଡିଟେକ୍ଟ GPS", "ଜିଲ୍ଲା A", "ଜିଲ୍ଲା B", "ଜିଲ୍ଲା C"],
         landSizeOptions: ["<1 ଏକର", "1–5 ଏକର", "5+ ଏକର"], cropOptions: ["ଗହମ", "ଧାନ", "ମକା", "ସୋୟାବିନ୍"], 
         soilTypeOptions: ["ବାଲି", "ମାଟି", "ଦୋମଟ", "କଳା"],
-        soilCharacterOptions: ["ମାଟିର ପ୍ରକାର ଚୟନ କରନ୍ତୁ", "ନିଶ୍ଚਿਤ ନୁହେଁ", "କଳା", "ଲାଲ", "ହଳଦିଆ", "ବାଦାਮୀ", "ଉଚ୍ଚ ଉର୍ବରତା", "କମ୍ ଉର୍ବରତା"],
-        irrigationOptions: ["କେନାଲ", "ଟ୍ୟୁବୱେଲ", "ବର୍ଷା ଉପରେ ନିର୍ଭର", "ପୋଖରୀ"], sowingOptions: ["ହାତରେ", "ମେସିନରେ"],
-        cropStageOptions: ["ପର୍ଯ୍ୟାୟ ଚୟନ କରନ୍ତୁ", "ଚାରା", "ଉଦ୍ଭିଦ", "ଫୁଲ ଧରିବା", "ଅମଳ"],
+        soilCharacterOptions: ["ମାଟିର ପ୍ରକାର ଚୟନ କରନ୍ତୁ", "ନିଶ୍ଚିତ ନୁହେଁ", "କଳା", "ଲାଲ", "ହଳଦିଆ", "ବାଦାମୀ", "ଉଚ୍ଚ ଉର୍ବରତା", "କମ୍ ଉର୍ବରତା"],
+        irrigationOptions: ["କେନାଲ", "ଟ୍ୟୁବୱେଲ", "ବର୍ଷା ଉପରେ ନିର୍ଭਰ", "ପୋଖରୀ"], sowingOptions: ["ହାତରେ", "ମେସିନରେ"],
+        cropStageOptions: ["ପର୍ଯ୍ୟାୟ ଚୟନ କରନ୍ତୁ", "ଚାରା", "ଉଦ୍ଭିਦ", "ଫୁଲ ଧରିବା", "ଅମଳ"],
         problemOptions: ["ସମସ୍ୟା ଚୟନ କରନ୍ତୁ", "ସାର ସମସ୍ୟା", "ଜଳସେಚନ ସମସ୍ୟା", "ରୋଗ", "କୀଟ", "ଅନ୍ୟ"]
     },
     as: {
@@ -229,14 +201,12 @@ export const translations = {
         heroTitle: 'কৃষি সখী', heroSubtitle: '', heroDate: '', heroBtn: 'কৃষকসকলক উন্নত কৰাত সহায় কৰা',
         voiceInputTitle: "ভইচ ইনপুট", voiceInputSubtitle: "আপোনাৰ স্থানীয় ভাষাত আপোনাৰ বিৱৰণ ৰেকৰ্ড কৰক।", 
         formHeading: "ফৰ্মৰ বিৱৰণ দিয়ক", formDetailsHeading: "পামৰ বিৱৰণ", submitBtn: "দাখিল কৰক",
-        footerSchemes: 'আঁচনি', footerMarketPrices: 'বজাৰৰ দাম', footerContact: 'যোগাযোগ', footerCopy: '© 2025 কৃষি সখী. সকলো অধিকাৰ সংৰক্ষিত।',
-        
+        footerSchemes: 'আঁচনি', footerMarketPrices: 'বজাৰৰ দাম', footerContact: 'যোগাযোগ', footerCopy: '© 2026 কৃষি সখী. সকলো অধিকাৰ সংৰক্ষিত।',
         locationLabel: "অৱস্থান", landSizeLabel: "মাটিৰ আকাৰ", cropLabel: "শস্য", soilTypeLabel: "মাটিৰ ধৰণ",
         soilCharacterLabel: "মাটিৰ চৰিত্ৰ", irrigationLabel: "সেচৰ উৎস", sowingLabel: "বপন ধৰণ", 
-        sowingDateLabel: "বপনৰ তাৰিখ", cropStageLabel: "শস্যৰ স্তৰ", problemLabel: "বৰ্তমানৰ সমস্যা", uploadImageLabel: "ছবি আপলোড কৰক",
-        
+        sowingDateLabel: "বপনৰ তাৰিখ", cropStageLabel: "শস্যৰ স্তৰ", problemLabel: "বৰ্তমানৰ সমস্যা (কওক)", uploadImageLabel: "ছবি আপলোড কৰক",
         locationOptions: ["অৱস্থান বাছক", "অটো-ডিটেক্ট GPS", "জিলা A", "জিলা B", "জিলা C"],
-        landSizeOptions: ["<1 একৰ", "1–5 একਰ", "5+ একৰ"], cropOptions: ["ঘেঁহু", "ধান", "মাকৈ", "ছয়াবিন"], 
+        landSizeOptions: ["<1 একৰ", "1–5 একৰ", "5+ একৰ"], cropOptions: ["ঘেঁহু", "ধান", "মাকৈ", "ছয়াবিন"], 
         soilTypeOptions: ["বালি", "চিনামাটি", "দোআঁশ", "কলা"],
         soilCharacterOptions: ["মাটিৰ চৰিত্ৰ বাছক", "নিশ্চিত নহয়", "কলা", "ৰঙা", "হালধীয়া", "মুগা", "উচ্চ উর্বৰতা", "কম উর্বৰতা"],
         irrigationOptions: ["খাল", "টিউবৱেল", "বৰষুণৰ ওপৰত নিৰ্ভৰশীল", "পুখুৰী"], sowingOptions: ["হাতেৰে", "যন্ত্ৰৰে"],
@@ -249,12 +219,10 @@ export const translations = {
         heroTitle: 'کرشی سکھی', heroSubtitle: '', heroDate: '', heroBtn: 'کاشتکاروں کو بہتر بنانے میں مدد کرنا',
         voiceInputTitle: "صوتی ان پٹ", voiceInputSubtitle: "اپنی تفصیلات اپنی مقامی زبان میں ریکارڈ کریں۔", 
         formHeading: "فارم کی تفصیل درج کریں", formDetailsHeading: "کھیت کی تفصیلات", submitBtn: "جمع کرائیں",
-        footerSchemes: 'اسکیمیں', footerMarketPrices: 'بازار کی قیمتیں', footerContact: 'رابطہ', footerCopy: '© 2025 کرشی سکھی. تمام حقوق محفوظ ہیں۔',
-        
+        footerSchemes: 'اسکیمیں', footerMarketPrices: 'بازار کی قیمتیں', footerContact: 'رابطہ', footerCopy: '© 2026 کرشی سکھی. تمام حقوق محفوظ ہیں۔',
         locationLabel: "مقام", landSizeLabel: "زمین کا سائز", cropLabel: "فصل", soilTypeLabel: "مٹی کی قسم",
         soilCharacterLabel: "مٹی کی قسم", irrigationLabel: "آبپاشی کا ذریعہ", sowingLabel: "بوائی کی قسم", 
-        sowingDateLabel: "بوائی کی تاریخ", cropStageLabel: "فصل کا مرحلہ", problemLabel: "موجودہ مسئلہ", uploadImageLabel: "تصویر اپ لوڈ کریں",
-        
+        sowingDateLabel: "بوائی کی تاریخ", cropStageLabel: "فصل کا مرحلہ", problemLabel: "موجودہ مسئلہ (بولیں)", uploadImageLabel: "تصویر اپ لوڈ کریں",
         locationOptions: ["مقام منتخب کریں", "آٹو-ڈیٹیکٹ GPS", "ضلع A", "ضلع B", "ضلع C"],
         landSizeOptions: ["<1 ایکڑ", "1–5 ایکڑ", "5+ ایکڑ"], cropOptions: ["گندم", "چاول", "مکئی", "سویابین"], 
         soilTypeOptions: ["ریتیلی", "چکنی مٹی", "دومٹ", "کالی"],
@@ -269,12 +237,10 @@ export const translations = {
         heroTitle: 'ڪرشي سکھي', heroSubtitle: '', heroDate: '', heroBtn: 'هاري کي بہتر بڻائڻ ۾ مدد ڪريو',
         voiceInputTitle: "آواز جي داخلا", voiceInputSubtitle: "پنهنجا تفصيل پنهنجي مقامي ٻولي ۾ رڪارڊ ڪريو.", 
         formHeading: "فارم جا تفصيل داخل ڪريو", formDetailsHeading: "کھیت جا تفصيل", submitBtn: "جمع ڪرايو",
-        footerSchemes: 'اسڪيمون', footerMarketPrices: 'مارڪيٽ جا قدر', footerContact: 'رابطو', footerCopy: '© 2025 ڪرشي سکھي. سڀ حق محفوظ آھن.',
-        
+        footerSchemes: 'اسڪيمون', footerMarketPrices: 'مارڪيٽ جا قدر', footerContact: 'رابطو', footerCopy: '© 2026 ڪرشي سکھي. سڀ حق محفوظ آھن.',
         locationLabel: "جاءِ", landSizeLabel: "زمين جو سائيز", cropLabel: "فصل", soilTypeLabel: "مٽي جو قسم",
         soilCharacterLabel: "مٽي جو قسم", irrigationLabel: "آبپاشي جو ذريعو", sowingLabel: "پوک جو قسم", 
-        sowingDateLabel: "پوک جي تاريخ", cropStageLabel: "فصل جو مرحلو", problemLabel: "هاڻوڪو مسئلو", uploadImageLabel: "تصوير اپلوڊ ڪريو",
-        
+        sowingDateLabel: "پوک جي تاريخ", cropStageLabel: "فصل جو مرحلو", problemLabel: "هاڻوڪو مسئلو (ٻوليو)", uploadImageLabel: "تصوير اپلوڊ ڪريو",
         locationOptions: ["جاءِ چونڊيو", "آٽو-ڊيٽيڪٽ GPS", "ضلع A", "ضلع B", "ضلع C"],
         landSizeOptions: ["<1 ايڪڙ", "1–5 ايڪڙ", "5+ ايڪڙ"], cropOptions: ["ڪڻڪ", "چانور", "مڪئي", "سويابين"], 
         soilTypeOptions: ["واريء", "چيڪني", "دومٽ", "ڪاري"],
@@ -289,12 +255,10 @@ export const translations = {
         heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'कृषकान् उन्नतं कर्तुं साहाय्यम्',
         voiceInputTitle: "ध्वनि-निवेशः", voiceInputSubtitle: "स्वतः विवरणं स्वभाषया अभिलेखयतु।", 
         formHeading: "रूपस्य विवरणं प्रविशतु", formDetailsHeading: "कृषिक्षेत्रविवरणानि", submitBtn: "प्रस्तुतम्",
-        footerSchemes: 'योजनाः', footerMarketPrices: 'आपणमूल्यानि', footerContact: 'सम्पर्कः', footerCopy: '© 2025 कृषि सखी। सर्वे अधिकाराः सुरक्षिताः।',
-        
+        footerSchemes: 'योजनाः', footerMarketPrices: 'आपणमूल्यानि', footerContact: 'सम्पर्कः', footerCopy: '© 2026 कृषि सखी। सर्वे अधिकाराः सुरक्षिताः।',
         locationLabel: "स्थानम्", landSizeLabel: "भूमेः आकारः", cropLabel: "कृषिः", soilTypeLabel: "मृत्तिका प्रकारः",
         soilCharacterLabel: "मृत्तिकायाः लक्षणम्", irrigationLabel: "सिंचन स्रोतः", sowingLabel: "बीजन प्रकारः", 
-        sowingDateLabel: "बीजनस्य तिथिः", cropStageLabel: "सस्यस्य अवस्था", problemLabel: "वर्तमानसमस्या", uploadImageLabel: "चित्रं प्रेषयतु",
-        
+        sowingDateLabel: "बीजनस्य तिथिः", cropStageLabel: "सस्यस्य अवस्था", problemLabel: "वर्तमानसमस्या (ध्वनिः)", uploadImageLabel: "चित्रं प्रेषयतु",
         locationOptions: ["स्थानं चिनोतु", "स्वयं-अन्वेषण GPS", "मण्डलम् A", "मण्डलम् B", "मण्डलम् C"],
         landSizeOptions: ["<1 एकरम्", "1–5 एकरम्", "5+ एकरम्"], cropOptions: ["गोधूमः", "तण्डुलः", "मक्का", "सोयाबीन"], 
         soilTypeOptions: ["सिकतामयम्", "मृत्तिका", "लोमी", "कृष्णम्"],
@@ -307,14 +271,12 @@ export const translations = {
         home: 'گَرٕ', myFarm: 'میون کھیت', todo: 'کرنچۍ ہَنز فہرست', trend: 'مُقامی روٗج', feedback: 'رائے',
         search: 'چھان چھوٚل...', websiteLanguage: "ویب سائٹ چھہِ زبان:",
         heroTitle: 'کرشی سکھ', heroSubtitle: '', heroDate: '', heroBtn: 'زٔمین وٲلؠن بہتر بناونہٕ خاطرٕ مدد',
-        voiceInputTitle: "آواز دٲخل کرُن", voiceInputSubtitle: "تۄہندِ تفصِیل تہِ پٲٹھی چھِ ریکارڈ کرِتھ یٕم کٔشیٖرؠ زَبانہِ مَنٛز۔", 
+        voiceInputTitle: "آواز دٲخل کرُن", voiceInputSubtitle: "تۄہندِ تفصِیل تہِ پٲٹھی چھِ ریکارڈ کرِتھ یٕم کٔشیٖرؠ زَبانہِ مَنٛز।", 
         formHeading: "فارم چھُ تفصیل درج کرُن", formDetailsHeading: "کھیت چھِ تفصیل", submitBtn: "جمع کرُن",
-        footerSchemes: 'سکیمہٕ', footerMarketPrices: 'بازارٕچ قٲمَتہٕ', footerContact: 'رٲبطہٕ', footerCopy: '© 2025 کرشی سکھ. سٲرِوٕے حقٕ چھِ محفوٗظ.',
-        
+        footerSchemes: 'سکیمہٕ', footerMarketPrices: 'بازارٕچ قٲمَتہٕ', footerContact: 'رٲبطہٕ', footerCopy: '© 2026 کرشی سکھ. سٲرِوٕے حقٕ چھِ محفوٗظ.',
         locationLabel: "جای", landSizeLabel: "زمین چھ سائز", cropLabel: "فصل", soilTypeLabel: "مٹی چھ قسم",
         soilCharacterLabel: "مٹی چھ صفت", irrigationLabel: "آبپاشی چھ ذریعہ", sowingLabel: "بوائی چھ قسم", 
-        sowingDateLabel: "بوائی ہند چھ تاریخ", cropStageLabel: "فصل چھ مرحلہ", problemLabel: "اوسنیٚ مسئلہ", uploadImageLabel: "فوٹو اپ لوڈ کریو",
-        
+        sowingDateLabel: "بوائی ہند چھ تاریخ", cropStageLabel: "فصل چھ مرحلہ", problemLabel: "اوسنیٚ مسئلہ (بولو)", uploadImageLabel: "فوٹو اپ لوڈ کریو",
         locationOptions: ["جای چھون", "آٹو-ڈیٹیکٹ GPS", "ضلعہ A", "ضلعہ B", "ضلعہ C"],
         landSizeOptions: ["<1 ایکڑ", "1–5 ایکڑ", "5+ ایکڑ"], cropOptions: ["گومہ", "چانور", "مکئی", "سویابین"], 
         soilTypeOptions: ["ریتہ", "مٹی", "دومٹ", "سیاہ"],
@@ -329,17 +291,15 @@ export const translations = {
         heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'शेतकामत्यांक बरे करपाक मदत',
         voiceInputTitle: "आवाज घालप", voiceInputSubtitle: "तुमची माहिती तुमच्या स्थानिक भाशेंत रेकॉर्ड करा।", 
         formHeading: "फॉर्म तपशील घालात", formDetailsHeading: "शेताचे तपशील", submitBtn: "दिवा",
-        footerSchemes: 'योजना', footerMarketPrices: 'बाजारभाव', footerContact: 'संपर्क', footerCopy: '© 2025 कृषि सखी. सगळे हक्क राखून दवरल्यात।',
-        
+        footerSchemes: 'योजना', footerMarketPrices: 'बाजारभाव', footerContact: 'संपर्क', footerCopy: '© 2026 कृषि सखी. सगळे हक्क राखून दवरल्यात।',
         locationLabel: "सुवात", landSizeLabel: "भूमीचे आकार", cropLabel: "पिक", soilTypeLabel: "मातीचा प्रकार",
         soilCharacterLabel: "मातीची प्रकृती", irrigationLabel: "सिंचन स्रोत", sowingLabel: "पेरणी प्रकार", 
-        sowingDateLabel: "पेरणीची तारीख", cropStageLabel: "पिकाचो टप्पो", problemLabel: "सद्य समस्या", uploadImageLabel: "फोटो अपलोड करा",
-        
+        sowingDateLabel: "पेरणीची तारीख", cropStageLabel: "पिकाचो टप्पो", problemLabel: "सद्य समस्या (उलोयात)", uploadImageLabel: "फोटो अपलोड करा",
         locationOptions: ["सुवात निवडात", "ऑटो-डि-detect GPS", "जिल्हा A", "जिल्हा B", "जिल्हा C"],
         landSizeOptions: ["<1 एकर", "1–5 एकर", "5+ एकर"], cropOptions: ["गव", "तांदूळ", "मको", "सोयाबीन"], 
         soilTypeOptions: ["रेवाळ", "चिकणमाती", "पोयटा माती", "काळो"],
         soilCharacterOptions: ["मातीची प्रकृती निवडात", "खात्री ना", "काळो", "तांबडो", "हळडो", "भुऱ्या", "व्हड उर्वरता", "उणे उर्वरता"],
-        irrigationOptions: ["न्हंय", "बोअरवेल", "पावस", "तळे"], sowingOptions: ["हत्तान", "यंत्रान"],
+        irrigationOptions: ["न्हंय", "बोअरवेल", "पावस", "तळे"], sowingOptions: ["हत्تان", "यंत्रान"],
         cropStageOptions: ["पायरी निवडात", "रोपो", "वनस्पत", "फुला", "कापणी"],
         problemOptions: ["समस्या निवडात", "सारें समस्या", "जल समस्या", "रोग", "कीड", "अनीक"]
     },
@@ -349,14 +309,11 @@ export const translations = {
         heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'किसान केँ नीक बनाबए में मदद',
         voiceInputTitle: "आवाज इनपुट", voiceInputSubtitle: "अपन विवरण अपन स्थानीय भाषामे रिकॉर्ड करु।", 
         formHeading: "फॉर्मक विवरण भरु", formDetailsHeading: "खेतक विवरण", submitBtn: "जमा करु",
-        footerSchemes: 'योजना', footerMarketPrices: 'बाजारक दाम', footerContact: 'संपर्क', footerCopy: '© 2025 कृषि सखी. सर्वे अधिकार सुरक्षित अछि।',
-        
+        footerSchemes: 'योजना', footerMarketPrices: 'बाजारक दाम', footerContact: 'संपर्क', footerCopy: '© 2026 कृषि सखी. सर्वे अधिकार सुरक्षित अछि।',
         locationLabel: "स्थान", landSizeLabel: "भूमि के आकार", cropLabel: "फसल", soilTypeLabel: "माटि के प्रकार",
         soilCharacterLabel: "माटीक चरित्र", irrigationLabel: "सिंचाई स्रोत", sowingLabel: "बुआई प्रकार", 
-        sowingDateLabel: "बुआईक तिथि", cropStageLabel: "फसलक चरण", problemLabel: "वर्तमान समस्या", uploadImageLabel: "फोटो अपलोड करु",
-        
-        locationOptions: ["स्थान चुनु", "ऑटो-डिटेक्ट GPS", "जिला A", "जिला B", "जिला C"],
-        landSizeOptions: ["<1 एकड़", "1–5 एकड़", "5+ एकड़"], cropOptions: ["गेहूं", "चाउर", "मकै", "सोयाबीन"], 
+        sowingDateLabel: "बुआईक तिथि", cropStageLabel: "फसलक चरण", problemLabel: "वर्तमान समस्या (कहु)", uploadImageLabel: "फोटो अपलोड करु",
+        landSizeOptions: ["1 एकड़ से कम", "1–5 एकड़", "5+ एकड़"], cropOptions: ["गेहूं", "चाउर", "मकै", "सोयाबीन"], 
         soilTypeOptions: ["रेतीला", "चिखला", "दोमट", "काली"],
         soilCharacterOptions: ["माटीक चरित्र चुनु", "निश्चित नहि", "काली", "लाल", "पियर", "भूरी", "उच्च उर्वरता", "कम उर्वरता"],
         irrigationOptions: ["नहर", "ट्यूबवेल", "वर्षा पर आधारित", "तालाब"], sowingOptions: ["हाथ से", "मशीन से"],
@@ -369,12 +326,10 @@ export const translations = {
         heroTitle: 'कृषि सखी', heroSubtitle: '', heroDate: '', heroBtn: 'किसानहरूलाई अझ राम्रो बनाउन मद्दत',
         voiceInputTitle: "आवाज इनपुट", voiceInputSubtitle: "आफ्नो विवरण आफ्नो स्थानीय भाषामा रेकर्ड गर्नुहोस्।", 
         formHeading: "फारमको विवरण प्रविष्ट गर्नुहोस्", formDetailsHeading: "फार्म विवरण", submitBtn: "पेश गर्नुहोस्",
-        footerSchemes: 'योजना', footerMarketPrices: 'बजार मूल्य', footerContact: 'सम्पर्क', footerCopy: '© 2025 कृषि सखी. सबै अधिकार सुरक्षित छन्।',
-        
+        footerSchemes: 'योजना', footerMarketPrices: 'बजार मूल्य', footerContact: 'सम्पर्क', footerCopy: '© 2026 कृषि सखी. सबै अधिकार सुरक्षित छन्।',
         locationLabel: "स्थान", landSizeLabel: "जग्गाको आकार", cropLabel: "बाली", soilTypeLabel: "माटोको प्रकार",
         soilCharacterLabel: "माटोको प्रकार", irrigationLabel: "सिचाइ स्रोत", sowingLabel: "बिउ छर्ने प्रकार", 
-        sowingDateLabel: "बिउ छर्ने मिति", cropStageLabel: "बालीको चरण", problemLabel: "हालको समस्या", uploadImageLabel: "फोटो अपलोड गर्नुहोस्",
-        
+        sowingDateLabel: "बिउ छर्ने मिति", cropStageLabel: "बालीको चरण", problemLabel: "हालको समस्या (बोल्नुहोस्)", uploadImageLabel: "फोटो अपलोड गर्नुहोस्",
         locationOptions: ["स्थान छान्नुहोस्", "अटो-डि-detect GPS", "जिल्ला A", "जिल्ला B", "जिल्ला C"],
         landSizeOptions: ["<1 एकड", "1–5 एकड", "5+ एकड"], cropOptions: ["गहुँ", "चामल", "मकै", "सोयाबीन"], 
         soilTypeOptions: ["बालुवा", "माटो", "दोमट", "कालो"],
