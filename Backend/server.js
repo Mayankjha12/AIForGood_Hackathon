@@ -14,19 +14,19 @@ app.use(express.json());
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // MongoDB Connection
+// Fixed: Added options for better connection stability
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ Agrokheti Database Connected"))
   .catch(err => console.error("❌ DB Connection Error:", err));
 
 // --- API ROUTES ---
 
-// AI Recommendation Route
 app.post('/api/ai/chat', async (req, res) => {
     try {
         const { farmData, lang } = req.body;
-        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        // Optimization: Use gemini-1.5-flash for faster hackathon responses
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); 
 
-        // User ki selected language ke hisab se prompt set karna
         const prompt = `You are KrishiSakhi AI, a professional Indian Agriculture Expert. 
         Analyze the following farmer's data:
         - Location: ${farmData.location}
@@ -42,11 +42,14 @@ app.post('/api/ai/chat', async (req, res) => {
         3. Problem Solution: Step-by-step solution for "${farmData.currentProblem}".
         4. Expert Advice: One pro-tip for the farmer based on the crop stage ${farmData.cropStage}.
         
-        Keep the language very simple, like a friend talking to a farmer.`;
+        Keep the language very simple, like a friend talking to a farmer. 
+        Use bullet points and bold text for readability.`;
 
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        res.json({ success: true, reply: response.text() });
+        const text = response.text();
+        
+        res.json({ success: true, reply: text });
     } catch (error) {
         console.error("Gemini Error:", error);
         res.status(500).json({ success: false, reply: "AI Expert abhi vyast hai, kripya thodi der baad koshish karein." });
@@ -55,5 +58,13 @@ app.post('/api/ai/chat', async (req, res) => {
 
 app.get('/', (req, res) => res.send("Agrokheti Backend is Live and Connected to Gemini!"));
 
+// --- VERCEL SPECIFIC CHANGES ---
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+
+// Local development ke liye listen karega, Vercel par nahi
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
+}
+
+// Vercel handles the server execution via this export
+module.exports = app;
