@@ -1,41 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function ChatbotResult({ langData }) {
     const [latestData, setLatestData] = useState(null);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+    const [messages, setMessages] = useState([]);
+
     // Load the latest data from Local Storage
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('krishiSakhiData'));
         if (storedData && storedData.length > 0) {
-            setLatestData(storedData[storedData.length - 1]);
+            const data = storedData[storedData.length - 1];
+            setLatestData(data);
+            // Initial AI message with basic simulation while waiting for input
+            setMessages([{ 
+                sender: 'ai', 
+                text: `Namaste! Aapke ${data.crop} farm ki report taiyaar hai. Aap mujhse koi bhi sawal puch sakte hain.` 
+            }]);
         }
     }, []);
 
-    // Simulated data constants
-    const SIMULATED_PREDICTION = "45.2"; 
-    const SIMULATED_ADVICE = latestData ? 
-        `Namaste, KrishiMitra mein aapka swagat hai!
-
-Based on our analysis of your inputs (Crop: ${latestData.crop}, Problem: ${latestData.problem}), 
-we have the following data-driven insights:
-
-1. ML Prediction: Estimated Yield is ${SIMULATED_PREDICTION} quintals/acre.
-2. Innovative Solution: Since you reported '${latestData.problem}', we recommend implementing a targeted drip irrigation schedule with a 15% reduction in water usage, specifically during the ${latestData.cropStage} stage, to boost resource efficiency and maintain the forecasted yield.
-
-Aapke anya sawalon ke liye, main yahan hoon.` : "Loading advice...";
-
-    const [messages, setMessages] = useState([]);
-
-    // Initialize messages once data is loaded
-    useEffect(() => {
-        if (latestData) {
-            setMessages([{ sender: 'ai', text: SIMULATED_ADVICE }]);
-        }
-    }, [latestData, SIMULATED_ADVICE]);
-
-    const handleSend = (e) => {
+    const handleSend = async (e) => {
         e.preventDefault();
         if (!input.trim() || isLoading) return;
         
@@ -43,13 +29,28 @@ Aapke anya sawalon ke liye, main yahan hoon.` : "Loading advice...";
         setMessages(prev => [...prev, userMsg]);
         setIsLoading(true);
         
-        // Simulating Gemini API Response
-        setTimeout(() => {
-            const aiMsg = { sender: 'ai', text: `Aapne pucha: "${input}". Main iska hal nikalne ke liye aapke farm ka history check kar rahi hoon. (Gemini API integrated soon!)` };
+        try {
+            // ✅ Real API Call to Groq Backend
+            const res = await axios.post('/.netlify/functions/api/chat', {
+                farmData: { 
+                    ...latestData, 
+                    problem: input // Current question is the new problem
+                },
+                lang: 'hi'
+            });
+            
+            const aiMsg = { sender: 'ai', text: res.data.reply };
             setMessages(prev => [...prev, aiMsg]);
-            setIsLoading(false);
-            setInput('');
-        }, 1500);
+        } catch (error) {
+            console.error("Chat Error:", error);
+            setMessages(prev => [...prev, { 
+                sender: 'ai', 
+                text: "Maaf kijiyega kisan bhai, abhi network mein thodi dikkat hai. Kripya thodi der baad koshish karein." 
+            }]);
+        }
+        
+        setIsLoading(false);
+        setInput('');
     };
 
     if (!latestData) {
@@ -66,7 +67,7 @@ Aapke anya sawalon ke liye, main yahan hoon.` : "Loading advice...";
                         <i className="fa-solid fa-robot"></i>
                         <span>KrishiSakhi AI Assistant</span>
                     </div>
-                    <span className="text-sm font-normal opacity-80 italic">Powered by Gemini AI</span>
+                    <span className="text-sm font-normal opacity-80 italic">Powered by Groq AI</span>
                 </div>
 
                 {/* Chat History */}
@@ -98,7 +99,7 @@ Aapke anya sawalon ke liye, main yahan hoon.` : "Loading advice...";
                         onChange={(e) => setInput(e.target.value)}
                         className="flex-grow p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 resize-none text-sm" 
                         rows="1" 
-                        placeholder="Type your question here..."
+                        placeholder="Kisan bhai, apna sawal puchein..."
                         disabled={isLoading}
                     />
                     <button 
@@ -107,9 +108,6 @@ Aapke anya sawalon ke liye, main yahan hoon.` : "Loading advice...";
                         disabled={isLoading}
                     >
                         <i className="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <button type="button" className="p-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 shadow-md">
-                         <i className="fa-solid fa-microphone"></i>
                     </button>
                 </form>
             </div>

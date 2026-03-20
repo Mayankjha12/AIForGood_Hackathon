@@ -49,14 +49,15 @@ const FormSection = ({ langData, currentLang }) => {
         setIsChatOpen(true); 
 
         try {
-            // Change URL to your deployed backend later
-            const res = await axios.post('http://localhost:8000/api/ai/chat', {
+            // ✅ Netlify Path Fixed
+            const res = await axios.post('/.netlify/functions/api/chat', {
                 farmData: formData,
                 lang: currentLang
             });
             setChatReply(res.data.reply);
         } catch (error) {
-            setChatReply("Error connecting to AI expert. Please check if backend is running.");
+            console.error("API Error:", error);
+            setChatReply("Error connecting to AI expert. Please ensure Netlify functions are deployed.");
         }
         setIsChatLoading(false);
     };
