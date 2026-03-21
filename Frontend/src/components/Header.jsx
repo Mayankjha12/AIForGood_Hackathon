@@ -1,96 +1,59 @@
-// Header.jsx
 import React from "react";
+import { Leaf, Globe, ChevronDown, User, LogOut } from 'lucide-react';
 
-// Native scripts for all supported languages (Judges' requirement)
-const languageMap = {
-  en: "English",
-  hi: "हिन्दी (Hindi)",
-  pa: "ਪੰਜਾਬੀ (Punjabi)",
-  mr: "मराठी (Marathi)",
-  gu: "ગુજરાતી (Gujarati)",
-  bn: "বাংলা (Bengali)",
-  ta: "தமிழ் (Tamil)",
-  te: "తెలుగు (Telugu)",
-  kn: "ಕನ್ನಡ (Kannada)",
-  ml: "മലയാളം (Malayalam)",
-  or: "ଓଡ଼ିଆ (Odia)",
-  as: "অসমীয়া (Assamese)",
-  ur: "اردو (Urdu)",
-  sd: "سنڌي (Sindhi)",
-  sa: "संस्कृतम् (Sanskrit)",
-  ks: "کٲشُر (Kashmiri)",
-  kok: "कोंकणी (Konkani)",
-  mai: "मैथिली (Maithili)",
-  ne: "नेपाली (Nepali)",
-};
-
-const allLangCodes = Object.keys(languageMap);
-
-const Header = ({ langData, currentLang, onLangChange, onNavigate, currentPage }) => {
+const Header = ({ langData, currentLang, onLangChange, onNavigate, currentPage, userName }) => {
   
-  const handleNavClick = (e, page) => {
-    e.preventDefault();
-    onNavigate(page);
-  };
-
   const navItemClass = (page) =>
-    `px-4 py-2 rounded-full font-bold transition-all duration-300 text-sm
-     ${
-       currentPage === page
-         ? "text-green-700 bg-green-100 shadow-sm"
-         : "text-gray-600 hover:text-green-700 hover:bg-green-50"
-     }`;
+    `px-6 py-3 rounded-full font-black text-sm uppercase tracking-tighter transition-all duration-300
+     ${currentPage === page ? "bg-green-600 text-white shadow-lg" : "text-gray-500 hover:bg-green-50 hover:text-green-700"}`;
 
   return (
-    <header className="fixed top-0 w-full z-50 h-24 flex items-center">
-      <nav
-        className="flex justify-between items-center w-full
-                   max-w-6xl mx-auto px-6 py-3
-                   bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-green-50"
-      >
-        {/* LOGO SECTION */}
-        <div
-          onClick={(e) => handleNavClick(e, "home")}
-          className="flex items-center gap-2 cursor-pointer group"
-        >
-          <div className="bg-green-600 p-2 rounded-xl group-hover:rotate-12 transition-transform">
-            <i className="fa-solid fa-leaf text-xl text-white"></i>
+    <header className="fixed top-0 w-full z-[100] h-28 flex items-center px-4">
+      <nav className="flex justify-between items-center w-full max-w-7xl mx-auto px-8 py-4 bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50">
+        
+        {/* BRANDING */}
+        <div onClick={() => onNavigate("home")} className="flex items-center gap-4 cursor-pointer group">
+          <div className="bg-green-600 p-3 rounded-2xl shadow-xl group-hover:rotate-12 transition-transform duration-500">
+            <Leaf className="text-white" size={28} fill="white" />
           </div>
-          <h1 className="text-xl font-black text-green-700 tracking-tight">
-            KrishiSakhi
-          </h1>
+          <div>
+            <h1 className="text-2xl font-black text-green-700 uppercase tracking-tighter leading-none italic">KrishiSakhi</h1>
+            <div className="flex items-center gap-1 mt-1">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{userName}</p>
+            </div>
+          </div>
         </div>
 
-        {/* NAVIGATION LINKS (Desktop) */}
-        <ul className="hidden lg:flex items-center gap-1">
-          <li><button onClick={(e) => handleNavClick(e, "home")} className={navItemClass("home")}>{langData.home}</button></li>
-          <li><button onClick={(e) => handleNavClick(e, "my-farm")} className={navItemClass("my-farm")}>{langData.myFarm}</button></li>
-          <li><button onClick={(e) => handleNavClick(e, "todo")} className={navItemClass("todo")}>{langData.todo}</button></li>
-          <li><button onClick={(e) => handleNavClick(e, "trend")} className={navItemClass("trend")}>{langData.trend}</button></li>
-          <li><button onClick={(e) => handleNavClick(e, "feedback")} className={navItemClass("feedback")}>{langData.feedback}</button></li>
+        {/* NAV LINKS */}
+        <ul className="hidden lg:flex items-center gap-2">
+          <li><button onClick={() => onNavigate("home")} className={navItemClass("home")}>Home</button></li>
+          <li><button onClick={() => onNavigate("my-farm")} className={navItemClass("my-farm")}>My Farm</button></li>
+          <li><button onClick={() => onNavigate("feedback")} className={navItemClass("feedback")}>Feedback</button></li>
         </ul>
 
-        {/* LANGUAGE SELECTOR */}
-        <div className="flex items-center gap-3">
-          <div className="relative">
-            <i className="fa-solid fa-globe absolute left-3 top-1/2 -translate-y-1/2 text-green-600 pointer-events-none text-xs"></i>
+        {/* ACTIONS */}
+        <div className="flex items-center gap-4">
+          <div className="relative group">
+            <Globe className="absolute left-4 top-1/2 -translate-y-1/2 text-green-600 pointer-events-none" size={16} />
             <select
-              className="appearance-none border border-green-100 bg-green-50/50 rounded-full pl-9 pr-8 py-2 text-xs font-bold text-green-800 outline-none focus:ring-2 focus:ring-green-500 cursor-pointer shadow-inner min-w-[150px]"
+              className="appearance-none bg-green-50 border-2 border-green-100 rounded-full pl-10 pr-10 py-3 text-xs font-black text-green-800 outline-none focus:ring-4 focus:ring-green-100 cursor-pointer shadow-inner uppercase tracking-widest"
               value={currentLang}
               onChange={(e) => onLangChange(e.target.value)}
             >
-              {allLangCodes.map(lang => (
-                <option key={lang} value={lang} className="text-gray-800 bg-white">
-                  {languageMap[lang]}
-                </option>
-              ))}
+              <option value="en">English</option>
+              <option value="hi">हिन्दी</option>
+              <option value="pa">ਪੰਜਾਬੀ</option>
             </select>
-            <i className="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-green-600 pointer-events-none text-[10px]"></i>
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-green-600 pointer-events-none" size={12} />
+          </div>
+
+          <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-xl cursor-pointer hover:scale-110 transition-all">
+            <User size={20} />
           </div>
         </div>
       </nav>
     </header>
   );
 };
-
 export default Header;

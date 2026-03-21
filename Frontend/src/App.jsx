@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'; // useEffect hata diya unused warning se bachne ke liye
+import React, { useState, useCallback, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import FormSection from './components/FormSection';
@@ -12,21 +12,24 @@ import LocalTrend from './components/LocalTrend';
 import Feedback from './components/Feedback';
 import { translations } from './data/translations';
 
-// Jab Firebase chalu karna ho, tab niche wale imports aur logic uncomment karna
-// import { onAuthStateChanged } from "firebase/auth";
-// import { auth } from "./firebase";
-// import Login from "./pages/Login";
+// FACE AUTH COMPONENTS (Abhi jo humne banaye)
+import FaceAuthLogin from './components/FaceAuthLogin';
+import FaceRegister from './components/FaceRegister';
 
 const supportedLangs = Object.keys(translations);
 
 function App() {
-    // App state
-    const [currentLang, setCurrentLang] = useState('en');
-    const [isFormVisible, setIsFormVisible] = useState(false);
-    const [currentPage, setCurrentPage] = useState('home'); 
+    // 1. Auth States
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState(null); // Kisan ka naam yahan store hoga
+    const [showRegister, setShowRegister] = useState(false);
 
-    // Jab login page banana ho, tab niche wali line aur useEffect wapas lana
-    // const [user, setUser] = useState(null);
+    // 2. App flow states
+    const [currentLang, setCurrentLang] = useState('en');
+    const [currentPage, setCurrentPage] = useState('home');
+    const [isFormVisible, setIsFormVisible] = useState(false);
+
+    const langData = translations[currentLang] || translations.en;
 
     const handleLanguageChange = useCallback((newLang) => {
         if (supportedLangs.includes(newLang)) {
@@ -35,35 +38,66 @@ function App() {
         }
     }, []);
 
+    // 3. Login/Register Success Handlers
+    const handleAuthSuccess = (userName) => {
+        setUser(userName);
+        setIsLoggedIn(true);
+        setCurrentPage('home');
+    };
+
     const navigateToResults = () => {
         setCurrentPage('results');
         setIsFormVisible(false);
     };
 
-    const langData = translations[currentLang] || translations.en;
-
     const handleNavigate = (page) => {
         setCurrentPage(page);
-        const element = document.getElementById(page);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
+    // 4. Main Rendering Logic
     const renderPage = () => {
         const pageWrapperClass = "pt-28 scroll-mt-28";
 
+        // Agar user login nahi hai, toh sirf Auth Screen dikhao
+        if (!isLoggedIn) {
+            return (
+                <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+                    <div className="max-w-md w-full">
+                        {showRegister ? (
+                            <FaceRegister 
+                                onSuccess={handleAuthSuccess} 
+                                onCancel={() => setShowRegister(false)} 
+                            />
+                        ) : (
+                            <div className="space-y-6">
+                                <FaceAuthLogin 
+                                    onSuccess={handleAuthSuccess} 
+                                    onCancel={() => {}} // Yahan exit logic daal sakte ho
+                                />
+                                <button 
+                                    onClick={() => setShowRegister(true)}
+                                    className="w-full text-indigo-600 font-black uppercase tracking-widest text-sm hover:underline"
+                                >
+                                    Naye Kisan ho? Register Karo
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Agar login hai, toh purana switch case
         switch(currentPage) {
             case 'my-farm': 
-                return <div id="my-farm" className={pageWrapperClass}><MyFarm langData={langData} /></div>;
+                return <div id="my-farm" className={pageWrapperClass}><MyFarm langData={langData} userName={user} /></div>;
             case 'todo': 
                 return <div id="todo" className={pageWrapperClass}><ToDoList langData={langData} /></div>;
             case 'trend': 
                 return <div id="trend" className={pageWrapperClass}><LocalTrend langData={langData} /></div>;
             case 'feedback': 
-                return <div id="feedback" className={pageWrapperClass}><Feedback langData={langData} /></div>;
+                return <div id="feedback" className={pageWrapperClass}><Feedback userName={user} currentLang={currentLang} /></div>;
             case 'results': 
                 return <div className={pageWrapperClass}><ChatbotResult langData={langData} /></div>;
             default: // Home Page
@@ -94,18 +128,24 @@ function App() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col font-lato text-gray-800">
-            <Header 
-                langData={langData} 
-                currentLang={currentLang}
-                onLangChange={handleLanguageChange}
-                onNavigate={handleNavigate}
-                currentPage={currentPage}
-            />
+        <div className="min-h-screen flex flex-col font-lato text-gray-800 bg-white">
+            {/* Header tabhi dikhao jab login ho */}
+            {isLoggedIn && (
+                <Header 
+                    langData={langData} 
+                    currentLang={currentLang}
+                    onLangChange={handleLanguageChange}
+                    onNavigate={handleNavigate}
+                    currentPage={currentPage}
+                    userName={user}
+                />
+            )}
+            
             <main className="flex-grow">
                 {renderPage()}
             </main>
-            <Footer langData={langData} />
+
+            {isLoggedIn && <Footer langData={langData} />}
         </div>
     );
 }
