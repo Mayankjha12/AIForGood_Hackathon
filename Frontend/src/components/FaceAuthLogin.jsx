@@ -71,7 +71,7 @@ const FaceRegister: React.FC<Props> = ({ onSuccess, onCancel }) => {
       speak(successMsg, language);
 
       setTimeout(() => onSuccess(name), 3000);
-    } catch (err: any) {
+    } catch (err) {
       const msg = err.response?.data?.error || t("Registration failed. Please try again.");
       setStatus(msg);
       speak(msg, language);
