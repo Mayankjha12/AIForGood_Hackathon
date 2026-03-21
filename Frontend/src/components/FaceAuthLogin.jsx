@@ -48,7 +48,7 @@ const FaceRegister: React.FC<Props> = ({ onSuccess, onCancel }) => {
     speak(t("Hold still. Capturing your face."), language);
 
     try {
-      const video = webcamRef.current.video!;
+      const video = webcamRef.current.video;
       const detection = await faceapi
         .detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
         .withFaceLandmarks()
